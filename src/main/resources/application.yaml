@@ -1,1 +1,23 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/bus_management_tool
+    username: postgres
+    password: root
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+    database: postgresql
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
 
+application:
+  security:
+    jwt:
+      secret-key: cyKiCWf0E+gMexgr+jM/DHBYrxiDVsey4UzMVTS2dWVmouQVBNFcHnrhaeNnHvNK
+      expiration: 86400000 # a day
+      refresh-token:
+        expiration: 604800000 # 7 days
