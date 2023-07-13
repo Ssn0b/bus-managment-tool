@@ -31,6 +31,9 @@ public class User implements UserDetails {
     private Role role;
     @OneToMany(mappedBy = "user")
     private List<Token> tokens;
+    public User(int id) {
+        this.id = (long) id;
+    }
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return role.getAuthorities();

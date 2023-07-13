@@ -1,16 +1,14 @@
 package com.snob.busmanagmenttool.model.entity;
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import static com.snob.busmanagmenttool.model.entity.Permission.*;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
-
-import static com.snob.busmanagmenttool.model.entity.Permission.*;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 @RequiredArgsConstructor
 public enum Role {

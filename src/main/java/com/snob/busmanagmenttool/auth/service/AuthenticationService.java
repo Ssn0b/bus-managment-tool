@@ -5,7 +5,6 @@ import com.snob.busmanagmenttool.auth.AuthenticationRequest;
 import com.snob.busmanagmenttool.auth.AuthenticationResponse;
 import com.snob.busmanagmenttool.auth.RegisterRequest;
 import com.snob.busmanagmenttool.config.JwtService;
-import com.snob.busmanagmenttool.model.entity.Role;
 import com.snob.busmanagmenttool.model.entity.User;
 import com.snob.busmanagmenttool.repository.UserRepository;
 import com.snob.busmanagmenttool.token.Token;
@@ -13,14 +12,13 @@ import com.snob.busmanagmenttool.token.TokenRepository;
 import com.snob.busmanagmenttool.token.TokenType;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.io.IOException;
 
 @Service
 @RequiredArgsConstructor

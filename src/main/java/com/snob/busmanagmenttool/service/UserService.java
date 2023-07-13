@@ -3,11 +3,10 @@ package com.snob.busmanagmenttool.service;
 import com.snob.busmanagmenttool.model.dto.UserDTO;
 import com.snob.busmanagmenttool.model.mapper.UserDTOMapper;
 import com.snob.busmanagmenttool.repository.UserRepository;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.stream.Collectors;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
