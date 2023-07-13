@@ -1,5 +1,6 @@
 package com.snob.busmanagmenttool.auth;
 
+import com.snob.busmanagmenttool.model.entity.Role;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -16,4 +17,6 @@ public class RegisterRequest {
     private String email;
     private String password;
     private double balance;
+    private Role role;
+
 }
