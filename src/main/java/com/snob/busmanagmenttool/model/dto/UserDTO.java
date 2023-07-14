@@ -1,12 +1,20 @@
 package com.snob.busmanagmenttool.model.dto;
 
 import com.snob.busmanagmenttool.model.entity.Role;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-public record UserDTO(
-        Long id,
-        String firstname,
-        String lastname,
-        String email,
-        Role role,
-        double balance
-) {}
+@NoArgsConstructor
+@AllArgsConstructor
+@Data
+@Builder
+public class UserDTO {
+    private Long id;
+    private String firstname;
+    private String lastname;
+    private String email;
+    private Role role;
+    private double balance;
+}
