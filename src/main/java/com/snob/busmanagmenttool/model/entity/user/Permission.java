@@ -1,4 +1,4 @@
-package com.snob.busmanagmenttool.model.entity;
+package com.snob.busmanagmenttool.model.entity.user;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

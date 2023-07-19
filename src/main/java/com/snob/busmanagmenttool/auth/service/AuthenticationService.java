@@ -5,7 +5,7 @@ import com.snob.busmanagmenttool.auth.AuthenticationRequest;
 import com.snob.busmanagmenttool.auth.AuthenticationResponse;
 import com.snob.busmanagmenttool.auth.RegisterRequest;
 import com.snob.busmanagmenttool.config.JwtService;
-import com.snob.busmanagmenttool.model.entity.User;
+import com.snob.busmanagmenttool.model.entity.user.User;
 import com.snob.busmanagmenttool.repository.UserRepository;
 import com.snob.busmanagmenttool.token.Token;
 import com.snob.busmanagmenttool.token.TokenRepository;

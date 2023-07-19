@@ -1,6 +1,6 @@
 package com.snob.busmanagmenttool.repository;
 
-import com.snob.busmanagmenttool.model.entity.Bus;
+import com.snob.busmanagmenttool.model.entity.machinery.Bus;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

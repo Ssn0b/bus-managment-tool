@@ -1,6 +1,6 @@
 package com.snob.busmanagmenttool.token;
 
-import com.snob.busmanagmenttool.model.entity.User;
+import com.snob.busmanagmenttool.model.entity.user.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

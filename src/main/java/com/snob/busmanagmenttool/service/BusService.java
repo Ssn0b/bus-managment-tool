@@ -1,9 +1,11 @@
 package com.snob.busmanagmenttool.service;
 
+import com.snob.busmanagmenttool.exception.EntityNotFoundException;
 import com.snob.busmanagmenttool.model.dto.BusDTO;
-import com.snob.busmanagmenttool.model.entity.Bus;
+import com.snob.busmanagmenttool.model.entity.machinery.Bus;
 import com.snob.busmanagmenttool.repository.BusRepository;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
@@ -29,12 +31,42 @@ public class BusService {
                 .collect(Collectors.toList());
     }
 
-    public BusDTO getBusById(Long id){
-        Optional<Bus> bus = busRepository.findById(id);
-        return modelMapper.map(bus, BusDTO.class);
+    public Optional<BusDTO> getBusById(Long id){
+        Bus bus = busRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Bus with ID " +
+            id + " not found."));
+        return Optional.ofNullable(modelMapper.map(bus, BusDTO.class));
     }
 
-    public Bus saveBus(Bus bus){
-        return busRepository.save(bus);
+    public Bus saveBus(BusDTO bus){
+        return busRepository.save(modelMapper.map(bus,Bus.class));
+    }
+
+    public Bus updateBus(Long id, Map<String,Object> updatedFields){
+        Bus bus = busRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Bus with ID " +
+                id + " not found."));
+        BusDTO busDTO = modelMapper.map(bus,BusDTO.class);
+        if (updatedFields.containsKey("brand")) {
+            busDTO.setBrand((String) updatedFields.get("brand"));
+        }
+        if (updatedFields.containsKey("seats")) {
+            busDTO.setSeats((int) updatedFields.get("seats"));
+        }
+        if (updatedFields.containsKey("carNumber")) {
+            busDTO.setCarNumber((String) updatedFields.get("carNumber"));
+        }
+        if (updatedFields.containsKey("driverId")) {
+            busDTO.setDriverId((Long) updatedFields.get("driverId"));
+        }
+        if (updatedFields.containsKey("active")) {
+            busDTO.setActive((boolean) updatedFields.get("active"));
+        }
+
+        return busRepository.save(modelMapper.map(busDTO,Bus.class));
+    }
+
+    public void deleteBusById(Long id){
+        Bus bus = busRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Bus with ID " +
+                id + " not found."));
+        busRepository.deleteById(id);
     }
 }

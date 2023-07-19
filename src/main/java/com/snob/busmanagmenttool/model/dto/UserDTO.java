@@ -1,6 +1,6 @@
 package com.snob.busmanagmenttool.model.dto;
 
-import com.snob.busmanagmenttool.model.entity.Role;
+import com.snob.busmanagmenttool.model.entity.user.Role;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
