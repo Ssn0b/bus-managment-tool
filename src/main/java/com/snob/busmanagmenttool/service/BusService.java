@@ -1,5 +1,6 @@
 package com.snob.busmanagmenttool.service;
 
+import com.snob.busmanagmenttool.exception.DriverAlreadyHasBusException;
 import com.snob.busmanagmenttool.exception.EntityNotFoundException;
 import com.snob.busmanagmenttool.model.dto.BusDTO;
 import com.snob.busmanagmenttool.model.entity.machinery.Bus;
@@ -37,8 +38,14 @@ public class BusService {
         return Optional.ofNullable(modelMapper.map(bus, BusDTO.class));
     }
 
-    public Bus saveBus(BusDTO bus){
-        return busRepository.save(modelMapper.map(bus,Bus.class));
+    public void saveBus(BusDTO bus){
+        Long driverId = bus.getDriverId();
+        if (busRepository.existsBusByDriverId(driverId)) {
+            throw new DriverAlreadyHasBusException("Driver with ID " +
+                    driverId + " is already associated with an active bus.");
+        }else {
+            busRepository.save(modelMapper.map(bus,Bus.class));
+        }
     }
 
     public Bus updateBus(Long id, Map<String,Object> updatedFields){

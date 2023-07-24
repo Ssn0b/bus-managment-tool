@@ -1,5 +1,7 @@
 package com.snob.busmanagmenttool.config;
 
+import com.snob.busmanagmenttool.exception.BusAlreadyHasRouteException;
+import com.snob.busmanagmenttool.exception.DriverAlreadyHasBusException;
 import com.snob.busmanagmenttool.exception.EntityNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +13,14 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(EntityNotFoundException.class)
     public ResponseEntity<String> handleUserNotFoundException(EntityNotFoundException ex) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+    }
+    @ExceptionHandler(DriverAlreadyHasBusException.class)
+    public ResponseEntity<String> handleDriverAlreadyHasBusException(DriverAlreadyHasBusException ex) {
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getMessage());
+    }
+    @ExceptionHandler(BusAlreadyHasRouteException.class)
+    public ResponseEntity<String> handleBusAlreadyHasRouteException(BusAlreadyHasRouteException ex) {
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getMessage());
     }
 //    @ExceptionHandler(AccessDeniedException.class)
 //    public ResponseEntity<String> handleAccessDeniedException(AccessDeniedException ex){
