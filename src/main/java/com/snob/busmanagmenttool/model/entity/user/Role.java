@@ -33,8 +33,13 @@ public enum Role {
                     MANAGER_DELETE,
                     MANAGER_CREATE
             )
+    ),
+    DRIVER(
+            Set.of(
+                    DRIVER_READ,
+                    DRIVER_UPDATE
+            )
     )
-
     ;
 
     @Getter

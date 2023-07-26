@@ -3,6 +3,7 @@ package com.snob.busmanagmenttool.config;
 import com.snob.busmanagmenttool.exception.BusAlreadyHasRouteException;
 import com.snob.busmanagmenttool.exception.DriverAlreadyHasBusException;
 import com.snob.busmanagmenttool.exception.EntityNotFoundException;
+import com.snob.busmanagmenttool.exception.UserIsNotDriverException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -22,10 +23,10 @@ public class GlobalExceptionHandler {
     public ResponseEntity<String> handleBusAlreadyHasRouteException(BusAlreadyHasRouteException ex) {
         return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getMessage());
     }
-//    @ExceptionHandler(AccessDeniedException.class)
-//    public ResponseEntity<String> handleAccessDeniedException(AccessDeniedException ex){
-//        return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Access denied.\nYou don't have permission for this");
-//    }
+    @ExceptionHandler(UserIsNotDriverException.class)
+    public ResponseEntity<String> handleUserIsNotDriverException(UserIsNotDriverException ex) {
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getMessage());
+    }
     @ExceptionHandler(Exception.class)
     public ResponseEntity<String> handleException(Exception ex) {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An internal server error occurred");

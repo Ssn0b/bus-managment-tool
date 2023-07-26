@@ -1,9 +1,9 @@
-package com.snob.busmanagmenttool.service;
+package com.snob.busmanagmenttool.service.user;
 
 import com.snob.busmanagmenttool.exception.EntityNotFoundException;
 import com.snob.busmanagmenttool.model.dto.UserDTO;
 import com.snob.busmanagmenttool.model.entity.user.User;
-import com.snob.busmanagmenttool.repository.UserRepository;
+import com.snob.busmanagmenttool.repository.user.UserRepository;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;

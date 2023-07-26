@@ -1,6 +1,6 @@
 package com.snob.busmanagmenttool.config;
 
-import com.snob.busmanagmenttool.repository.UserRepository;
+import com.snob.busmanagmenttool.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
