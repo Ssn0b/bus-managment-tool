@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -38,5 +39,15 @@ public class BusDriverService {
                 driverId + " not found."));
         busRepository.updateDriverIdToNull(driverId);
         busDriverRepository.deleteById(driverId);
+    }
+
+    public BusDriver updateBusDriver(String username, Map<String,Object> updatedFields){
+        BusDriver busDriver = busDriverRepository.findByUsername(username).orElseThrow(() -> new EntityNotFoundException("Driver with username " +
+                username + " not found."));
+        BusDriverDTO busDriverDTO = modelMapper.map(busDriver,BusDriverDTO.class);
+        if (updatedFields.containsKey("experience")) {
+            busDriverDTO.setWorkExperience((int) updatedFields.get("experience"));
+        }
+        return busDriverRepository.save(modelMapper.map(busDriverDTO,BusDriver.class));
     }
 }
