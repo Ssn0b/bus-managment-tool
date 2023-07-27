@@ -1,6 +1,6 @@
-package com.snob.busmanagmenttool.model.entity;
+package com.snob.busmanagmenttool.model.entity.user;
 
-import static com.snob.busmanagmenttool.model.entity.Permission.*;
+import static com.snob.busmanagmenttool.model.entity.user.Permission.*;
 
 import java.util.Collections;
 import java.util.List;
@@ -33,8 +33,13 @@ public enum Role {
                     MANAGER_DELETE,
                     MANAGER_CREATE
             )
+    ),
+    DRIVER(
+            Set.of(
+                    DRIVER_READ,
+                    DRIVER_UPDATE
+            )
     )
-
     ;
 
     @Getter

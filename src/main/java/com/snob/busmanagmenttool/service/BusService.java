@@ -1,11 +1,19 @@
 package com.snob.busmanagmenttool.service;
 
+import com.snob.busmanagmenttool.exception.DriverAlreadyHasBusException;
+import com.snob.busmanagmenttool.exception.EntityNotFoundException;
+import com.snob.busmanagmenttool.exception.UserIsNotDriverException;
 import com.snob.busmanagmenttool.model.dto.BusDTO;
-import com.snob.busmanagmenttool.model.entity.Bus;
+import com.snob.busmanagmenttool.model.entity.machinery.Bus;
+import com.snob.busmanagmenttool.model.entity.user.Role;
+import com.snob.busmanagmenttool.model.entity.user.User;
 import com.snob.busmanagmenttool.repository.BusRepository;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
+
+import com.snob.busmanagmenttool.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeMap;
@@ -15,6 +23,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class BusService {
     private final BusRepository busRepository;
+    private final UserRepository userRepository;
     private final ModelMapper modelMapper;
 
 
@@ -29,12 +38,56 @@ public class BusService {
                 .collect(Collectors.toList());
     }
 
-    public BusDTO getBusById(Long id){
-        Optional<Bus> bus = busRepository.findById(id);
-        return modelMapper.map(bus, BusDTO.class);
+    public Optional<BusDTO> getBusById(Long id){
+        Bus bus = busRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Bus with ID " +
+            id + " not found."));
+        return Optional.ofNullable(modelMapper.map(bus, BusDTO.class));
     }
 
-    public Bus saveBus(Bus bus){
-        return busRepository.save(bus);
+    public void saveBus(BusDTO bus){
+        Long driverId = bus.getDriverId();
+        User driver = userRepository.findById(driverId)
+                .orElseThrow(() -> new EntityNotFoundException("Driver with ID " +
+                        driverId + " not found."));
+        if (busRepository.existsBusByDriverId(driverId)) {
+            throw new DriverAlreadyHasBusException("Driver with ID " +
+                    driverId + " is already associated with an active bus.");
+        }else if(driver.getRole() != Role.DRIVER){
+            throw new UserIsNotDriverException(
+                    "User with ID " + driverId +
+                            " is not working as driver.");
+        }
+        else {
+            busRepository.save(modelMapper.map(bus,Bus.class));
+        }
+    }
+
+    public Bus updateBus(Long id, Map<String,Object> updatedFields){
+        Bus bus = busRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Bus with ID " +
+                id + " not found."));
+        BusDTO busDTO = modelMapper.map(bus,BusDTO.class);
+        if (updatedFields.containsKey("brand")) {
+            busDTO.setBrand((String) updatedFields.get("brand"));
+        }
+        if (updatedFields.containsKey("seats")) {
+            busDTO.setSeats((int) updatedFields.get("seats"));
+        }
+        if (updatedFields.containsKey("carNumber")) {
+            busDTO.setCarNumber((String) updatedFields.get("carNumber"));
+        }
+        if (updatedFields.containsKey("driverId")) {
+            busDTO.setDriverId((Long) updatedFields.get("driverId"));
+        }
+        if (updatedFields.containsKey("active")) {
+            busDTO.setActive((boolean) updatedFields.get("active"));
+        }
+
+        return busRepository.save(modelMapper.map(busDTO,Bus.class));
+    }
+
+    public void deleteBusById(Long id){
+        busRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Bus with ID " +
+                id + " not found."));
+        busRepository.deleteById(id);
     }
 }

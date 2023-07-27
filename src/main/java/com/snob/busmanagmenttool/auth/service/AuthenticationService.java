@@ -5,8 +5,10 @@ import com.snob.busmanagmenttool.auth.AuthenticationRequest;
 import com.snob.busmanagmenttool.auth.AuthenticationResponse;
 import com.snob.busmanagmenttool.auth.RegisterRequest;
 import com.snob.busmanagmenttool.config.JwtService;
-import com.snob.busmanagmenttool.model.entity.User;
-import com.snob.busmanagmenttool.repository.UserRepository;
+import com.snob.busmanagmenttool.model.entity.user.BusDriver;
+import com.snob.busmanagmenttool.model.entity.user.Role;
+import com.snob.busmanagmenttool.model.entity.user.User;
+import com.snob.busmanagmenttool.repository.user.UserRepository;
 import com.snob.busmanagmenttool.token.Token;
 import com.snob.busmanagmenttool.token.TokenRepository;
 import com.snob.busmanagmenttool.token.TokenType;
@@ -30,14 +32,28 @@ public class AuthenticationService {
   private final AuthenticationManager authenticationManager;
 
   public AuthenticationResponse register(RegisterRequest request) {
-    var user = User.builder()
-            .firstname(request.getFirstname())
-            .lastname(request.getLastname())
-            .email(request.getEmail())
-            .password(passwordEncoder.encode(request.getPassword()))
-            .username(request.getUsername())
-            .role(request.getRole())
-            .build();
+    User user;
+    if (request.getRole() == Role.DRIVER) {
+      user = BusDriver.builder()
+              .firstname(request.getFirstname())
+              .lastname(request.getLastname())
+              .email(request.getEmail())
+              .password(passwordEncoder.encode(request.getPassword()))
+              .username(request.getUsername())
+              .role(request.getRole())
+              .workExperience(request.getExperience())
+              .build();
+    } else {
+      user =
+          User.builder()
+              .firstname(request.getFirstname())
+              .lastname(request.getLastname())
+              .email(request.getEmail())
+              .password(passwordEncoder.encode(request.getPassword()))
+              .username(request.getUsername())
+              .role(request.getRole())
+              .build();
+    }
     var savedUser = repository.save(user);
     var jwtToken = jwtService.generateToken(user);
     var refreshToken = jwtService.generateRefreshToken(user);

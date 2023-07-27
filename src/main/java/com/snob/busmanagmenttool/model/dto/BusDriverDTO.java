@@ -1,4 +1,4 @@
-package com.snob.busmanagmenttool.auth;
+package com.snob.busmanagmenttool.model.dto;
 
 import com.snob.busmanagmenttool.model.entity.user.Role;
 import lombok.AllArgsConstructor;
@@ -6,17 +6,16 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+@NoArgsConstructor
+@AllArgsConstructor
 @Data
 @Builder
-@AllArgsConstructor
-@NoArgsConstructor
-public class RegisterRequest {
-    private String username;
+public class BusDriverDTO {
+    private Long id;
     private String firstname;
     private String lastname;
     private String email;
-    private String password;
-    private double balance;
     private Role role;
-    private int experience;
+    private double balance;
+    private int workExperience;
 }

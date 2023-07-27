@@ -1,5 +1,7 @@
-package com.snob.busmanagmenttool.model.entity;
+package com.snob.busmanagmenttool.model.entity.machinery;
 
+import com.snob.busmanagmenttool.model.entity.user.BusDriver;
+import com.snob.busmanagmenttool.model.entity.user.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -21,7 +23,7 @@ public class Bus {
     private String carNumber;
     private boolean active;
     @OneToOne
-    @JoinColumn(name = "driver_id", nullable = false)
+    @JoinColumn(name = "driver_id")
     private User driver;
 }
 

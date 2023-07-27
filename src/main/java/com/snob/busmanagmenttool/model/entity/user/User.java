@@ -1,4 +1,4 @@
-package com.snob.busmanagmenttool.model.entity;
+package com.snob.busmanagmenttool.model.entity.user;
 
 import com.snob.busmanagmenttool.token.Token;
 import jakarta.persistence.*;
@@ -8,15 +8,17 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-@Builder
+@SuperBuilder
 @Entity
 @Table(name = "_user")
+@Inheritance(strategy = InheritanceType.JOINED)
 public class User implements UserDetails {
     @Id
     @GeneratedValue
@@ -29,8 +31,9 @@ public class User implements UserDetails {
     private double balance;
     @Enumerated(EnumType.STRING)
     private Role role;
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Token> tokens;
+
     public User(int id) {
         this.id = (long) id;
     }

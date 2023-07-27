@@ -1,9 +1,10 @@
 package com.snob.busmanagmenttool.config;
 
-import static com.snob.busmanagmenttool.model.entity.Permission.*;
-import static com.snob.busmanagmenttool.model.entity.Role.*;
+import static com.snob.busmanagmenttool.model.entity.user.Permission.*;
+import static com.snob.busmanagmenttool.model.entity.user.Role.*;
 import static org.springframework.http.HttpMethod.*;
 
+import com.snob.busmanagmenttool.exception.CustomAccessDeniedHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -24,6 +25,8 @@ public class SecurityConfiguration {
     private final JwtAuthenticationFilter jwtAuthFilter;
     private final AuthenticationProvider authenticationProvider;
     private final LogoutHandler logoutHandler;
+    private CustomAccessDeniedHandler customAccessDeniedHandler;
+
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
@@ -54,7 +57,10 @@ public class SecurityConfiguration {
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
                 .logout(log -> log.logoutUrl("/api/v1/auth/logout").addLogoutHandler(logoutHandler)
                         .logoutSuccessHandler((request, response, authentication) ->
-                                                SecurityContextHolder.clearContext()));
+                                                SecurityContextHolder.clearContext()))
+                .exceptionHandling(ex -> ex
+                        .accessDeniedHandler(customAccessDeniedHandler)
+                );
         return http.build();
     }
 }
