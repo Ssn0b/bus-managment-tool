@@ -1,14 +1,23 @@
-.home-container {
-  text-align: center;
-  padding: 20px;
+.ng-image-slider {
+  max-width: 100%;
+  overflow: hidden;
 }
 
-h1 {
-  font-size: 36px;
-  color: #333;
+.ng-image-slider > ul {
+  display: flex;
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
+  max-width: 100%;
+  position: relative;
 }
 
-p {
-  font-size: 18px;
-  color: #666;
+.ng-image-slider > ul li {
+  flex: 0 0 100%;
+}
+
+.ng-image-slider > ul li img {
+  width: 100%;
+  height: auto;
 }

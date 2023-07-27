@@ -1,0 +1,8 @@
+mat-toolbar {
+    position: sticky;
+    top: 0;
+  }
+  
+  .spacer {
+    flex: 1;
+  }
