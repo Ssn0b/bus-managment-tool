@@ -1,13 +1,2 @@
-<main>
-  <div class="carousel-container">
-    <ng-image-slider [images]="images" [imageSize]="{ width: 250, height: 200 }">
-      <ng-template #sliderImageTemplate let-image>
-        <img [src]="image.url" alt="Slider Image" width="100%" height="100%">
-      </ng-template>
-    </ng-image-slider>
-  </div>
-
-  <div class="main-container">
-    <!-- Add your existing content here -->
-  </div>
-</main>
+<app-header></app-header>
+<app-photo-carousel></app-photo-carousel>

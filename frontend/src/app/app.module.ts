@@ -10,9 +10,14 @@ import { NgImageSliderModule } from 'ng-image-slider'; // Add this line
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './navbar/navbar.component';
-import { HeaderComponent } from './header/header.component';
+import { HeaderComponent } from './header/header.component'; // <-- Import HeaderComponent
 import { HomeComponent } from './home/home.component';
 import { PhotoCarouselComponent } from './photo-carousel/photo-carousel.component';
+import { CommonModule } from '@angular/common';
+
+// import { RegisterComponent } from '../auth/login/register/register.component';
+// import { LoginComponent } from '../auth/login/login.component';
+
 
 
 @NgModule({
@@ -20,8 +25,10 @@ import { PhotoCarouselComponent } from './photo-carousel/photo-carousel.componen
     AppComponent,
     HomeComponent,
     NavbarComponent,
+    PhotoCarouselComponent,
     HeaderComponent,
-    PhotoCarouselComponent
+    // RegisterComponent,
+    // LoginComponent
   ],
   imports: [
     BrowserModule,
@@ -31,7 +38,8 @@ import { PhotoCarouselComponent } from './photo-carousel/photo-carousel.componen
     MatIconModule,
     MatMenuModule,
     NgImageSliderModule, // Add this line
-    AppRoutingModule
+    AppRoutingModule,
+    CommonModule, 
   ],
   providers: [],
   bootstrap: [AppComponent]

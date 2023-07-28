@@ -1,34 +1,35 @@
+/* header.component.css */
+
 .mat-toolbar {
-    display: flex;
-    justify-content: space-between;
-    background-color: black; /* Set the background color to black */
-    color: white; /* Set the text color to white for better contrast */
-  }
-  
-  .logo-container {
-    display: flex;
-    align-items: center;
-  }
-  
-  .logo-icon {
-    font-size: 30px;
-    margin-right: 8px;
-  }
-  
-  .logo-text {
-    font-size: 20px;
-    font-weight: bold;
-  }
-  
-  .header-title {
-    font-size: 24px;
-    font-weight: bold;
-    margin-left: 16px;
-  }
-  
-  /* Adjust the height and padding of the toolbar for a more prominent header */
-  .mat-toolbar {
-    height: 80px;
-    padding: 0 24px;
-  }
-  
+  background-color: #000; /* Black background */
+  max-width: 100%; /* Take maximum width of parent */
+  margin: 0 auto; /* Center the header horizontally */
+}
+
+.logo-container {
+  flex-grow: 1;
+  text-align: center;
+}
+
+.logo-container img {
+  max-height: 50px;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+.menu-icon {
+  color: #fff; /* White icon color */
+}
+
+.login-register {
+  display: flex;
+  align-items: center;
+}
+
+.login-button,
+.register-button {
+  color: #fff; /* White button text color */
+  margin-left: 10px; /* Add spacing between buttons */
+}
