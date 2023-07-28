@@ -1,0 +1,35 @@
+/* header.component.css */
+
+.mat-toolbar {
+  background-color: #000; /* Black background */
+  max-width: 100%; /* Take maximum width of parent */
+  margin: 0 auto; /* Center the header horizontally */
+}
+
+.logo-container {
+  flex-grow: 1;
+  text-align: center;
+}
+
+.logo-container img {
+  max-height: 50px;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+.menu-icon {
+  color: #fff; /* White icon color */
+}
+
+.login-register {
+  display: flex;
+  align-items: center;
+}
+
+.login-button,
+.register-button {
+  color: #fff; /* White button text color */
+  margin-left: 10px; /* Add spacing between buttons */
+}

@@ -1,0 +1,23 @@
+.ng-image-slider {
+  max-width: 100%;
+  overflow: hidden;
+}
+
+.ng-image-slider > ul {
+  display: flex;
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
+  max-width: 100%;
+  position: relative;
+}
+
+.ng-image-slider > ul li {
+  flex: 0 0 100%;
+}
+
+.ng-image-slider > ul li img {
+  width: 100%;
+  height: auto;
+}
