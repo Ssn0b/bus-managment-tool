@@ -6,6 +6,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { NgImageSliderModule } from 'ng-image-slider'; // Add this line
+import { FormsModule } from '@angular/forms'; // Import FormsModule
+
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -14,9 +16,10 @@ import { HeaderComponent } from './header/header.component'; // <-- Import Heade
 import { HomeComponent } from './home/home.component';
 import { PhotoCarouselComponent } from './photo-carousel/photo-carousel.component';
 import { CommonModule } from '@angular/common';
+import { HttpClientModule } from '@angular/common/http';
 
-// import { RegisterComponent } from '../auth/login/register/register.component';
-// import { LoginComponent } from '../auth/login/login.component';
+import { RegisterComponent } from './auth/register/register.component';
+import { LoginComponent } from './auth/login/login.component';
 
 
 
@@ -27,8 +30,8 @@ import { CommonModule } from '@angular/common';
     NavbarComponent,
     PhotoCarouselComponent,
     HeaderComponent,
-    // RegisterComponent,
-    // LoginComponent
+    RegisterComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
@@ -39,7 +42,9 @@ import { CommonModule } from '@angular/common';
     MatMenuModule,
     NgImageSliderModule, // Add this line
     AppRoutingModule,
+    HttpClientModule,
     CommonModule, 
+    FormsModule 
   ],
   providers: [],
   bootstrap: [AppComponent]
