@@ -5,10 +5,13 @@ import com.snob.busmanagmenttool.model.dto.CityDTO;
 import com.snob.busmanagmenttool.model.dto.UserDTO;
 import com.snob.busmanagmenttool.service.BusService;
 import com.snob.busmanagmenttool.service.CityService;
+import com.snob.busmanagmenttool.service.TicketService;
 import com.snob.busmanagmenttool.service.user.BusDriverService;
 import com.snob.busmanagmenttool.service.user.UserService;
 import java.util.List;
 import java.util.Optional;
+
+import com.snob.busmanagmenttool.service.user.actions.FeedbackService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -26,6 +29,9 @@ public class AdminController {
     private final BusService busService;
     private final CityService cityService;
     private final BusDriverService busDriverService;
+    private final FeedbackService feedbackService;
+    private final TicketService ticketService;
+
 
     @GetMapping("/users")
     @PreAuthorize("hasAuthority('admin:read')")
@@ -57,5 +63,17 @@ public class AdminController {
     @PreAuthorize("hasAuthority('admin:delete')")
     public void deleteBusDriver(@PathVariable Long id) throws EntityNotFoundException {
         busDriverService.deleteBusDriverById(id);
+    }
+    @DeleteMapping("/feedback/{id}")
+    @PreAuthorize("hasAuthority('admin:delete')")
+    public ResponseEntity<Void> deleteFeedback(@PathVariable String id) {
+        feedbackService.deleteFeedback(id);
+        return ResponseEntity.noContent().build();
+    }
+    @DeleteMapping("/ticket/{id}")
+    @PreAuthorize("hasAuthority('admin:delete')")
+    public ResponseEntity<Void> deleteTicket(@PathVariable String id) {
+        ticketService.deleteTicket(id);
+        return ResponseEntity.noContent().build();
     }
 }

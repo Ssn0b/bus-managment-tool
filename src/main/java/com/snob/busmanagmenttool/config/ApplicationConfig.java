@@ -15,6 +15,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.access.AccessDeniedHandlerImpl;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
 
 @Configuration
 @RequiredArgsConstructor
@@ -57,5 +60,19 @@ public class ApplicationConfig {
   @Bean
   public AccessDeniedHandler accessDeniedHandler() {
     return new AccessDeniedHandlerImpl();
+  }
+
+  @Bean
+  public CorsFilter corsFilter() {
+    CorsConfiguration corsConfig = new CorsConfiguration();
+    corsConfig.setAllowCredentials(true);
+    corsConfig.addAllowedOrigin("http://localhost:4200");
+    corsConfig.addAllowedHeader("*");
+    corsConfig.addAllowedMethod("*");
+
+    UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+    source.registerCorsConfiguration("/**", corsConfig);
+
+    return new CorsFilter(source);
   }
 }

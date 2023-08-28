@@ -13,6 +13,11 @@ spring:
         format_sql: true
     database: postgresql
     database-platform: org.hibernate.dialect.PostgreSQLDialect
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      database: bus_management_tool
 
 application:
   security:

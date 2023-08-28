@@ -1,6 +1,7 @@
 package com.snob.busmanagmenttool.auth;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.snob.busmanagmenttool.model.entity.user.Role;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,4 +16,5 @@ public class AuthenticationResponse {
     private String accessToken;
     @JsonProperty("refresh_token")
     private String refreshToken;
+    private Role role;
 }
