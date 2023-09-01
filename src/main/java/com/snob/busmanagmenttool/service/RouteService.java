@@ -23,7 +23,6 @@ import org.springframework.stereotype.Service;
 public class RouteService {
     private final RouteRepository routeRepository;
     private final StopRepository stopRepository;
-
     private final ModelMapper modelMapper;
 
     public void saveRoute(RouteDTO routeDTO){

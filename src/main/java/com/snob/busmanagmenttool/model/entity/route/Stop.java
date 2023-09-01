@@ -31,4 +31,6 @@ public class Stop {
   //    @ManyToMany(mappedBy = "stops")
     @OneToMany(mappedBy = "stop", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<RouteStop> routeStops = new ArrayList<>();
+    @OneToMany(mappedBy = "stop", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<RouteStop> tripStops = new ArrayList<>();
 }

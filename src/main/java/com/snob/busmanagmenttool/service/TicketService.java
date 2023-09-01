@@ -48,15 +48,6 @@ public class TicketService {
         if (updatedFields.containsKey("userId")) {
             ticketDTO.setUserId((int) updatedFields.get("userId"));
         }
-        if (updatedFields.containsKey("busId")) {
-            ticketDTO.setBusId((int) updatedFields.get("busId"));
-        }
-        if (updatedFields.containsKey("departureTime")) {
-            ticketDTO.setDepartureTime((LocalDateTime) updatedFields.get("departureTime"));
-        }
-        if (updatedFields.containsKey("arrivalTime")) {
-            ticketDTO.setArrivalTime((LocalDateTime) updatedFields.get("arrivalTime"));
-        }
         if (updatedFields.containsKey("seatNumber")) {
             ticketDTO.setSeatNumber((int) updatedFields.get("seatNumber"));
         }
@@ -80,7 +71,7 @@ public class TicketService {
         LocalDateTime now = LocalDateTime.now();
 
         for (Ticket ticket : tickets) {
-            if (ticket.getArrivalTime().isBefore(now)) {
+            if (ticket.getTrip().getArrivalTime().isBefore(now)) {
                 ticket.setStatus(TicketStatus.EXPIRED);
                 ticketRepository.save(ticket);
             }
