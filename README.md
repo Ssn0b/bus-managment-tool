@@ -32,7 +32,9 @@ The Bus Management Tool is a web-based application designed to streamline and si
 
 ## Technologies Used
 
-- Spring Boot for the backend application, including Spring Security for authentication and authorization.
-- PostgreSQL database managed through Docker.
-- Angular framework for the frontend user interface.
-- JSON Web Tokens (JWT) for secure user authentication.
+- Spring Boot: Backend application framework.
+- Spring Security: Authentication and authorization.
+- PostgreSQL: Relational database managed through Docker.
+- MongoDB: NoSQL database for data storage and management.
+- Angular: Frontend user interface development.
+- JSON Web Tokens (JWT): Secure user authentication.
