@@ -6,6 +6,7 @@ import com.snob.busmanagmenttool.auth.AuthenticationResponse;
 import com.snob.busmanagmenttool.auth.RegisterRequest;
 import com.snob.busmanagmenttool.config.JwtService;
 import com.snob.busmanagmenttool.model.entity.user.BusDriver;
+import com.snob.busmanagmenttool.model.entity.user.Repairman;
 import com.snob.busmanagmenttool.model.entity.user.Role;
 import com.snob.busmanagmenttool.model.entity.user.User;
 import com.snob.busmanagmenttool.repository.user.UserRepository;
@@ -43,7 +44,19 @@ public class AuthenticationService {
               .role(request.getRole())
               .workExperience(request.getExperience())
               .build();
-    } else {
+    }else if(request.getRole() == Role.REPAIRMAN){
+      user = Repairman.builder()
+              .firstname(request.getFirstname())
+              .lastname(request.getLastname())
+              .email(request.getEmail())
+              .password(passwordEncoder.encode(request.getPassword()))
+              .username(request.getUsername())
+              .role(request.getRole())
+              .workExperience(request.getExperience())
+              .specialization(request.getSpecialization())
+              .build();
+    }
+    else {
       user =
           User.builder()
               .firstname(request.getFirstname())

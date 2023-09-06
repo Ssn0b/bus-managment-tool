@@ -1,12 +1,12 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/bus_management_tool
-    username: postgres
-    password: root
+    url: ${DATABASE_URL}
+    username: ${DATABASE_USERNAME}
+    password: ${DATABASE_PASSWORD}
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: update
     show-sql: true
     properties:
       hibernate:
@@ -15,20 +15,36 @@ spring:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
   data:
     mongodb:
-      host: localhost
-      port: 27017
-      database: bus_management_tool
+      host: ${MONGO_HOST}
+      port: ${MONGO_PORT}
+      database: ${MONGO_DATABASE}
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 100MB
 
 application:
   security:
     jwt:
       secret-key: cyKiCWf0E+gMexgr+jM/DHBYrxiDVsey4UzMVTS2dWVmouQVBNFcHnrhaeNnHvNK
-      expiration: 8640000000 # a day
+      expiration: 2592000000
       refresh-token:
-        expiration: 60480000000 # 7 days
+        expiration: 2592000000
+  bucket:
+    name: my-photo-storage-bucket
 
 springdoc:
   api-docs:
     path: /v3/api-docs
   swagger-ui:
     path: /v3/swagger-ui.html
+
+cloud:
+  aws:
+    access-key: ${AWS_ACCESS_KEY}
+    secret-key: ${AWS_SECRET_KEY}
+    region: ${AWS_REGION}
+
+
+
+

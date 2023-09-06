@@ -1,5 +1,6 @@
 package com.snob.busmanagmenttool.config;
 
+import com.amazonaws.services.s3.AmazonS3Client;
 import com.snob.busmanagmenttool.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;

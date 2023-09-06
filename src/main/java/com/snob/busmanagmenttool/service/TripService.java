@@ -56,7 +56,7 @@ public class TripService {
             mapper.map(src -> src.getBus().getId(), TripDTO::setBusId);
             mapper.map(src -> src.getTripStops()
                     .stream()
-                    .map(x -> x.getId())
+                    .map(TripStop::getId)
                     .collect(Collectors.toList()), TripDTO::setStopIds);
         });
         return tripRepository.findAll()

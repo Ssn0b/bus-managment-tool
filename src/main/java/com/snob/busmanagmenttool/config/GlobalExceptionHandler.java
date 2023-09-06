@@ -1,9 +1,6 @@
 package com.snob.busmanagmenttool.config;
 
-import com.snob.busmanagmenttool.exception.BusAlreadyHasRouteException;
-import com.snob.busmanagmenttool.exception.DriverAlreadyHasBusException;
-import com.snob.busmanagmenttool.exception.EntityNotFoundException;
-import com.snob.busmanagmenttool.exception.UserIsNotDriverException;
+import com.snob.busmanagmenttool.exception.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -17,6 +14,10 @@ public class GlobalExceptionHandler {
     }
     @ExceptionHandler(DriverAlreadyHasBusException.class)
     public ResponseEntity<String> handleDriverAlreadyHasBusException(DriverAlreadyHasBusException ex) {
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getMessage());
+    }
+    @ExceptionHandler(BusSeatIsAlreadyTaken.class)
+    public ResponseEntity<String> handleBusSeatsAlreadyTaken(Exception ex) {
         return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getMessage());
     }
     @ExceptionHandler(BusAlreadyHasRouteException.class)

@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -21,7 +22,8 @@ public class Bus {
     private String brand;
     private int seats;
     private String carNumber;
-    private boolean active;
+    private BusStatus busStatus;
+    private String photoUrl;
     @OneToOne
     @JoinColumn(name = "driver_id")
     private User driver;

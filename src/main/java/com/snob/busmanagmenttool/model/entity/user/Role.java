@@ -39,6 +39,12 @@ public enum Role {
                     DRIVER_READ,
                     DRIVER_UPDATE
             )
+    ),
+    REPAIRMAN(
+            Set.of(
+                    REPAIRMAN_READ,
+                    REPAIRMAN_UPDATE
+            )
     )
     ;
 

@@ -1,7 +1,6 @@
 package com.snob.busmanagmenttool.model.entity.user;
 
-import com.snob.busmanagmenttool.model.entity.machinery.Bus;
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -14,6 +13,7 @@ import lombok.experimental.SuperBuilder;
 @Data
 @SuperBuilder
 @Entity
-public class BusDriver extends User{
+public class Repairman extends User{
     private int workExperience;
+    private Specialization specialization;
 }

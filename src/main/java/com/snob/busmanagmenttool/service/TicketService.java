@@ -1,5 +1,7 @@
 package com.snob.busmanagmenttool.service;
 
+import com.snob.busmanagmenttool.exception.BusSeatIsAlreadyTaken;
+import com.snob.busmanagmenttool.exception.DriverAlreadyHasBusException;
 import com.snob.busmanagmenttool.exception.EntityNotFoundException;
 import com.snob.busmanagmenttool.model.dto.TicketDTO;
 import com.snob.busmanagmenttool.model.entity.route.ticket.Ticket;
@@ -36,7 +38,12 @@ public class TicketService {
     }
 
     public void createTicket(TicketDTO ticketDTO) {
-        ticketRepository.save(modelMapper.map(ticketDTO,Ticket.class));
+        if (ticketRepository.existsTicketBySeatNumber(ticketDTO.getSeatNumber())) {
+            throw new BusSeatIsAlreadyTaken("Seat with number " +
+                    ticketDTO.getSeatNumber() + " is already taken.");
+        }else {
+            ticketRepository.save(modelMapper.map(ticketDTO,Ticket.class));
+        }
     }
 
     public Ticket updateTicket(String id, Map<String, Object> updatedFields) {
@@ -49,6 +56,10 @@ public class TicketService {
             ticketDTO.setUserId((int) updatedFields.get("userId"));
         }
         if (updatedFields.containsKey("seatNumber")) {
+            if (ticketRepository.existsTicketBySeatNumber((int) updatedFields.get("seatNumber"))) {
+                throw new BusSeatIsAlreadyTaken("Seat with number " +
+                        ticketDTO.getSeatNumber() + " is already taken.");
+            }
             ticketDTO.setSeatNumber((int) updatedFields.get("seatNumber"));
         }
         if (updatedFields.containsKey("status")) {
@@ -67,11 +78,10 @@ public class TicketService {
         ticketRepository.deleteById(id);
     }
     public void updateTicketStatus() {
-        List<Ticket> tickets = ticketRepository.findAll(); //@TODO add not expired to sql
+        List<Ticket> tickets = ticketRepository.findByStatusNot(TicketStatus.EXPIRED);
         LocalDateTime now = LocalDateTime.now();
-
         for (Ticket ticket : tickets) {
-            if (ticket.getTrip().getArrivalTime().isBefore(now)) {
+            if (ticket.getTrip().getArrivalTime().isBefore(now)) {  //@TODO aaasdaadawdwa
                 ticket.setStatus(TicketStatus.EXPIRED);
                 ticketRepository.save(ticket);
             }

@@ -15,8 +15,9 @@ public enum Permission {
     MANAGER_CREATE("management:create"),
     MANAGER_DELETE("management:delete"),
     DRIVER_READ("driver:read"),
-    DRIVER_UPDATE("driver:update");
-
+    DRIVER_UPDATE("driver:update"),
+    REPAIRMAN_UPDATE("repairman:update"),
+    REPAIRMAN_READ("repairman:read");
     @Getter
     private final String permission;
 }
