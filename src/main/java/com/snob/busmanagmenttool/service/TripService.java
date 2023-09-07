@@ -29,23 +29,6 @@ public class TripService {
             throw new BusAlreadyHasRouteException("Bus with ID " + busId + " is already associated with an active route.");
         } else {
             Trip trip = modelMapper.map(tripDTO, Trip.class);
-
-            List<TripStop> tripStops = new ArrayList<>();
-            for (Long stopId : tripDTO.getStopIds()) {
-                Stop stop = stopRepository.findById(stopId)
-                        .orElseThrow(()->new EntityNotFoundException("Stop with ID " +
-                                stopId + " not found."));
-            TripStopId tripStopId = new TripStopId(trip.getId(), stop.getId());
-
-            TripStop tripStop = new TripStop();
-                tripStop.setId(tripStopId);
-                tripStop.setTrip(trip);
-                tripStop.setStop(stop);
-
-                tripStops.add(tripStop);
-            }
-            trip.setTripStops(tripStops);
-
             tripRepository.save(trip);
         }
     }
@@ -54,10 +37,8 @@ public class TripService {
         TypeMap<Trip, TripDTO> typeMap = modelMapper.createTypeMap(Trip.class, TripDTO.class);
         typeMap.addMappings(mapper -> {
             mapper.map(src -> src.getBus().getId(), TripDTO::setBusId);
-            mapper.map(src -> src.getTripStops()
-                    .stream()
-                    .map(TripStop::getId)
-                    .collect(Collectors.toList()), TripDTO::setStopIds);
+            mapper.map(src -> src.getStartStop().getId(), TripDTO::setStartStopId);
+            mapper.map(src -> src.getFinishStop().getId(), TripDTO::setFinishStopId);
         });
         return tripRepository.findAll()
                 .stream()

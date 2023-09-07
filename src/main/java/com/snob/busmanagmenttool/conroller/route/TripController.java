@@ -31,11 +31,11 @@ public class TripController {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body("Trip added");
     }
-    @GetMapping
-    @PreAuthorize("hasAuthority('admin:read') || hasAuthority('management:read')")
-    public List<TripDTO> getTrips() {
-        return tripService.getAllTrips();
-    }
+//    @GetMapping
+//    @PreAuthorize("hasAuthority('admin:read') || hasAuthority('management:read')")
+//    public List<TripDTO> getTrips() {
+//        return tripService.getAllTrips();
+//    }
     @GetMapping("/{id}")
     @PreAuthorize("hasAuthority('admin:read') || hasAuthority('management:read')")
     public Optional<TripDTO> getTrip(@PathVariable Long id) throws EntityNotFoundException {

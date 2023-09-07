@@ -14,7 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 @Builder
 public class BusDTO{
     private String brand;
-    private int seats;
+    private Integer seats;
     private String carNumber;
     private Long driverId;
     private BusStatus busStatus;

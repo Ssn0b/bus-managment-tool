@@ -28,9 +28,7 @@ public class Stop {
     @JoinColumn(name = "city_id", nullable = false)
     private City city;
     private String street;
-  //    @ManyToMany(mappedBy = "stops")
     @OneToMany(mappedBy = "stop", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<RouteStop> routeStops = new ArrayList<>();
-    @OneToMany(mappedBy = "stop", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<RouteStop> tripStops = new ArrayList<>();
+
 }

@@ -81,7 +81,7 @@ public class TicketService {
         List<Ticket> tickets = ticketRepository.findByStatusNot(TicketStatus.EXPIRED);
         LocalDateTime now = LocalDateTime.now();
         for (Ticket ticket : tickets) {
-            if (ticket.getTrip().getArrivalTime().isBefore(now)) {  //@TODO aaasdaadawdwa
+            if (ticket.getTrip().getDepartureTime().isBefore(now)) {
                 ticket.setStatus(TicketStatus.EXPIRED);
                 ticketRepository.save(ticket);
             }

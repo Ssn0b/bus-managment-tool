@@ -1,11 +1,9 @@
 package com.snob.busmanagmenttool.model.dto;
 
 import com.snob.busmanagmenttool.model.entity.machinery.Bus;
-import com.snob.busmanagmenttool.model.entity.route.TripStop;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
+//import com.snob.busmanagmenttool.model.entity.route.TripStop;
+import com.snob.busmanagmenttool.model.entity.route.Stop;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
@@ -39,6 +37,6 @@ public class TripDTO {
     @FutureOrPresent
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private LocalDateTime arrivalTime;
-    private List<Long> stopIds;
-
+    private Long startStopId;
+    private Long finishStopId;
 }

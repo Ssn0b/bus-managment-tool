@@ -27,24 +27,18 @@ public class RouteService {
 
     public void saveRoute(RouteDTO routeDTO){
         Long busId = routeDTO.getBusId();
-
-        // Check if a route with the specified bus ID already exists
         if (routeRepository.existsRouteByBusId(busId)) {
             throw new BusAlreadyHasRouteException("Bus with ID " + busId + " is already associated with an active route.");
         } else {
-            // Map RouteDTO to Route entity
             Route route = modelMapper.map(routeDTO, Route.class);
 
-            // Create and set the RouteStop entities
             List<RouteStop> routeStops = new ArrayList<>();
             for (Long stopId : routeDTO.getStopIds()) {
                 Stop stop = stopRepository.findById(stopId)
                         .orElseThrow(()->new EntityNotFoundException("Stop with ID " +
                                 stopId + " not found."));
-                // Create RouteStopId with routeId and stopId
                 RouteStopId routeStopId = new RouteStopId(route.getId(), stop.getId());
 
-                // Create RouteStop entity and set the relationship with Route and Stop
                 RouteStop routeStop = new RouteStop();
                 routeStop.setId(routeStopId);
                 routeStop.setRoute(route);
@@ -54,7 +48,6 @@ public class RouteService {
             }
             route.setRouteStops(routeStops);
 
-            // Save the new route along with its associated RouteStop entities
             routeRepository.save(route);
         }
     }

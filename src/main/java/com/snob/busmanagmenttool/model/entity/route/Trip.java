@@ -1,7 +1,6 @@
 package com.snob.busmanagmenttool.model.entity.route;
 
 import com.snob.busmanagmenttool.model.entity.machinery.Bus;
-import com.snob.busmanagmenttool.model.entity.route.ticket.Ticket;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,8 +8,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -25,8 +22,12 @@ public class Trip {
     private String tripNumber;
     private LocalDateTime departureTime;
     private LocalDateTime arrivalTime;
-    @OneToMany(mappedBy = "trip", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<TripStop> tripStops = new ArrayList<>();
+    @ManyToOne
+    @JoinColumn(name = "start_stop_id", nullable = false)
+    private Stop startStop;
+    @ManyToOne
+    @JoinColumn(name = "finish_stop_id", nullable = false)
+    private Stop finishStop;
     @OneToOne
     @JoinColumn(name = "bus_id", nullable = false)
     private Bus bus;

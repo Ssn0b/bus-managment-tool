@@ -1,5 +1,8 @@
 package com.snob.busmanagmenttool.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.snob.busmanagmenttool.exception.DriverAlreadyHasBusException;
 import com.snob.busmanagmenttool.exception.EntityNotFoundException;
 import com.snob.busmanagmenttool.exception.UserIsNotDriverException;
@@ -9,16 +12,23 @@ import com.snob.busmanagmenttool.model.entity.machinery.BusStatus;
 import com.snob.busmanagmenttool.model.entity.user.Role;
 import com.snob.busmanagmenttool.model.entity.user.User;
 import com.snob.busmanagmenttool.repository.BusRepository;
+
+import java.io.IOException;
+import java.sql.Driver;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 import com.snob.busmanagmenttool.repository.user.UserRepository;
+import com.snob.busmanagmenttool.service.aws.S3Service;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeMap;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 @RequiredArgsConstructor
@@ -26,6 +36,8 @@ public class BusService {
     private final BusRepository busRepository;
     private final UserRepository userRepository;
     private final ModelMapper modelMapper;
+    private final S3Service s3Service;
+    private final ObjectMapper objectMapper;
 
     public List<BusDTO> getAllBuses(){
         TypeMap<Bus, BusDTO> typeMap = modelMapper.createTypeMap(Bus.class, BusDTO.class);
@@ -42,7 +54,9 @@ public class BusService {
             id + " not found."));
         return Optional.ofNullable(modelMapper.map(bus, BusDTO.class));
     }
-    public void saveBus(BusDTO bus){
+    public void saveBus(MultipartFile file, String busData){
+        try{
+        BusDTO bus = objectMapper.readValue(busData, BusDTO.class);
         Long driverId = bus.getDriverId();
         User driver = userRepository.findById(driverId)
                 .orElseThrow(() -> new EntityNotFoundException("Driver with ID " +
@@ -56,34 +70,60 @@ public class BusService {
                             " is not working as driver.");
         }
         else {
+            String photoUrl = s3Service.uploadBusImage(file);
+            bus.setPhotoUrl(photoUrl);
             busRepository.save(modelMapper.map(bus,Bus.class));
         }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
-    public Bus updateBus(Long id, Map<String,Object> updatedFields){
-        Bus bus = busRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Bus with ID " +
-                id + " not found."));
-        BusDTO busDTO = modelMapper.map(bus,BusDTO.class);
-        if (updatedFields.containsKey("brand")) {
-            busDTO.setBrand((String) updatedFields.get("brand"));
-        }
-        if (updatedFields.containsKey("seats")) {
-            busDTO.setSeats((int) updatedFields.get("seats"));
-        }
-        if (updatedFields.containsKey("carNumber")) {
-            busDTO.setCarNumber((String) updatedFields.get("carNumber"));
-        }
-        if (updatedFields.containsKey("driverId")) {
-            busDTO.setDriverId((Long) updatedFields.get("driverId"));
-        }
-        if (updatedFields.containsKey("active")) {
-            busDTO.setBusStatus((BusStatus) updatedFields.get("active"));
-        }
+    public ResponseEntity<String> updateBus(Long id, MultipartFile file, String updatedFields){
+        try {
+            Optional<Bus> optionalBus = busRepository.findById(id);
+            if (optionalBus.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Bus not found.");
+            }
+            Bus existingBus = optionalBus.get();
+            if (file != null && !file.isEmpty()) {
+                s3Service.deleteFile(existingBus.getPhotoUrl());
+                String photoUrl = s3Service.uploadBusImage(file);
+                existingBus.setPhotoUrl(photoUrl);
+            }
+            if (updatedFields != null && !updatedFields.isEmpty()) {
+                BusDTO updatedBus = objectMapper.readValue(updatedFields, BusDTO.class);
+                if (updatedBus.getSeats() != null) {
+                    existingBus.setSeats(updatedBus.getSeats());
+                }
+                if (updatedBus.getCarNumber() != null) {
+                    existingBus.setCarNumber(updatedBus.getCarNumber());
+                }
+                if (updatedBus.getDriverId() != null) {
+                    Long updatedDriverId = updatedBus.getDriverId();
+                    User updatedDriver = userRepository.findById(updatedDriverId)
+                            .orElseThrow(() -> new EntityNotFoundException("Driver with ID " + updatedDriverId + " not found."));
+                    existingBus.setDriver(updatedDriver);
+                }
+                if (updatedBus.getBusStatus() != null) {
+                    existingBus.setBusStatus(updatedBus.getBusStatus());
+                }
+                busRepository.save(existingBus);
+            }
+            return ResponseEntity.ok("Bus updated successfully.");
 
-        return busRepository.save(modelMapper.map(busDTO,Bus.class));
+        } catch (Exception  e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to update bus.");
+        }
     }
     public void deleteBusById(Long id){
-        busRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Bus with ID " +
+        try {
+        Bus bus = busRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Bus with ID " +
                 id + " not found."));
+        s3Service.deleteFile(bus.getPhotoUrl());
         busRepository.deleteById(id);
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

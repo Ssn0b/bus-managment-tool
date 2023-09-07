@@ -21,7 +21,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-@Slf4j
 @RestController
 @RequestMapping("/api/v1/management/buses")
 @PreAuthorize("hasRole('ADMIN') || hasRole('MANAGER')")
@@ -29,31 +28,18 @@ import org.springframework.web.multipart.MultipartFile;
 @RequiredArgsConstructor
 public class BusController {
     private final BusService busService;
-    private final S3Service s3Service;
-    private final ObjectMapper objectMapper;
     @PostMapping
     @PreAuthorize("hasAuthority('admin:create') || hasAuthority('management:create')")
     public ResponseEntity<String> addBus(@RequestParam("file") MultipartFile file,
                                          @RequestParam("bus") String busData) {
-        try {
-            String photoUrl = s3Service.uploadBusImage(file);
-            BusDTO busDTO = objectMapper.readValue(busData, BusDTO.class);
-            busDTO.setPhotoUrl(photoUrl);
-            busService.saveBus(busDTO);
-
+            busService.saveBus(file, busData);
             return ResponseEntity.ok("Bus added successfully.");
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error adding bus: " + e.getMessage());
-        }
     }
-    @PatchMapping("/{id}")
+    @PutMapping("/{id}")
     @PreAuthorize("hasAuthority('admin:update') || hasAuthority('management:update')")
-    public ResponseEntity<String> updateBus(@PathVariable("id") Long id, @RequestBody Map<String, Object> updatedFields){
-
-        log.info("start adding bus...");
-        busService.updateBus(id,updatedFields);
-        log.info("added");
-
+    public ResponseEntity<String> updateBus(@PathVariable("id") Long id, @RequestParam("file") MultipartFile file,
+                                            @RequestParam("bus") String updatedFields){
+        busService.updateBus(id,file,updatedFields);
         return ResponseEntity.status(HttpStatus.OK)
                 .body("Bus updated");
     }
