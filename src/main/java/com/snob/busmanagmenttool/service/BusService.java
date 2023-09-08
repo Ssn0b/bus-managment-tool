@@ -18,18 +18,20 @@ import java.sql.Driver;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import com.snob.busmanagmenttool.repository.user.UserRepository;
 import com.snob.busmanagmenttool.service.aws.S3Service;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeMap;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class BusService {
@@ -49,7 +51,7 @@ public class BusService {
                 .map(bus->modelMapper.map(bus,BusDTO.class))
                 .collect(Collectors.toList());
     }
-    public Optional<BusDTO> getBusById(Long id){
+    public Optional<BusDTO> getBusById(UUID id){
         Bus bus = busRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Bus with ID " +
             id + " not found."));
         return Optional.ofNullable(modelMapper.map(bus, BusDTO.class));
@@ -57,7 +59,7 @@ public class BusService {
     public void saveBus(MultipartFile file, String busData){
         try{
         BusDTO bus = objectMapper.readValue(busData, BusDTO.class);
-        Long driverId = bus.getDriverId();
+        UUID driverId = bus.getDriverId();
         User driver = userRepository.findById(driverId)
                 .orElseThrow(() -> new EntityNotFoundException("Driver with ID " +
                         driverId + " not found."));
@@ -78,7 +80,7 @@ public class BusService {
             e.printStackTrace();
         }
     }
-    public ResponseEntity<String> updateBus(Long id, MultipartFile file, String updatedFields){
+    public ResponseEntity<String> updateBus(UUID id, MultipartFile file, String updatedFields){
         try {
             Optional<Bus> optionalBus = busRepository.findById(id);
             if (optionalBus.isEmpty()) {
@@ -99,7 +101,7 @@ public class BusService {
                     existingBus.setCarNumber(updatedBus.getCarNumber());
                 }
                 if (updatedBus.getDriverId() != null) {
-                    Long updatedDriverId = updatedBus.getDriverId();
+                    UUID updatedDriverId = updatedBus.getDriverId();
                     User updatedDriver = userRepository.findById(updatedDriverId)
                             .orElseThrow(() -> new EntityNotFoundException("Driver with ID " + updatedDriverId + " not found."));
                     existingBus.setDriver(updatedDriver);
@@ -116,7 +118,7 @@ public class BusService {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to update bus.");
         }
     }
-    public void deleteBusById(Long id){
+    public void deleteBusById(UUID id){
         try {
         Bus bus = busRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Bus with ID " +
                 id + " not found."));

@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Map;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -22,7 +23,7 @@ public class BusDriverService {
     private final BusRepository busRepository;
     private final ModelMapper modelMapper;
 
-    public Optional<BusDTO> getCurrentBusById(Long driverId) {
+    public Optional<BusDTO> getCurrentBusById(UUID driverId) {
         Bus bus = busRepository.findBusByDriverId(driverId).orElseThrow(() -> new EntityNotFoundException("Driver with ID " +
                 driverId + " does not have any assigned bus."));
         return Optional.ofNullable(modelMapper.map(bus, BusDTO.class));
@@ -34,7 +35,7 @@ public class BusDriverService {
         return Optional.ofNullable(modelMapper.map(busDriver, BusDriverDTO.class));
     }
     @Transactional
-    public void deleteBusDriverById(Long driverId){
+    public void deleteBusDriverById(UUID driverId){
         busDriverRepository.findById(driverId).orElseThrow(() -> new EntityNotFoundException("Bus driver with id " +
                 driverId + " not found."));
         busRepository.updateDriverIdToNull(driverId);

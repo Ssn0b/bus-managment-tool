@@ -9,6 +9,7 @@ import com.snob.busmanagmenttool.service.BusService;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.UUID;
 
 import com.snob.busmanagmenttool.service.aws.S3Service;
 import jakarta.persistence.JoinColumn;
@@ -37,7 +38,7 @@ public class BusController {
     }
     @PutMapping("/{id}")
     @PreAuthorize("hasAuthority('admin:update') || hasAuthority('management:update')")
-    public ResponseEntity<String> updateBus(@PathVariable("id") Long id, @RequestParam("file") MultipartFile file,
+    public ResponseEntity<String> updateBus(@PathVariable("id") UUID id, @RequestParam("file") MultipartFile file,
                                             @RequestParam("bus") String updatedFields){
         busService.updateBus(id,file,updatedFields);
         return ResponseEntity.status(HttpStatus.OK)
@@ -50,7 +51,7 @@ public class BusController {
     }
     @GetMapping("/{id}")
     @PreAuthorize("hasAuthority('admin:read') || hasAuthority('management:read')")
-    public Optional<BusDTO> getBus(@PathVariable Long id) throws EntityNotFoundException {
+    public Optional<BusDTO> getBus(@PathVariable UUID id) throws EntityNotFoundException {
         return busService.getBusById(id);
     }
 

@@ -2,6 +2,8 @@ package com.snob.busmanagmenttool.model.dto;
 
 import java.time.Duration;
 import java.util.List;
+import java.util.UUID;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -17,5 +19,5 @@ public class RouteDTO {
     private List<Long> stopIds;
     private double distance;
     private Duration duration;
-    private Long busId;
+    private UUID busId;
 }

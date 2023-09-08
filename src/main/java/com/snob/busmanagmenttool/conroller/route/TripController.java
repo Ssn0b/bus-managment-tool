@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Slf4j
 @RestController
@@ -38,12 +39,12 @@ public class TripController {
 //    }
     @GetMapping("/{id}")
     @PreAuthorize("hasAuthority('admin:read') || hasAuthority('management:read')")
-    public Optional<TripDTO> getTrip(@PathVariable Long id) throws EntityNotFoundException {
+    public Optional<TripDTO> getTrip(@PathVariable UUID id) throws EntityNotFoundException {
         return tripService.getTripById(id);
     }
     @DeleteMapping("/{id}")
     @PreAuthorize("hasAuthority('admin:delete')")
-    public void deleteTrip(@PathVariable Long id) throws EntityNotFoundException {
+    public void deleteTrip(@PathVariable UUID id) throws EntityNotFoundException {
         tripService.deleteTripById(id);
     }
 }

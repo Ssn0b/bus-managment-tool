@@ -9,6 +9,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.UUID;
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
@@ -18,10 +20,11 @@ import org.springframework.web.multipart.MultipartFile;
 public class Bus {
     @Id
     @GeneratedValue
-    private Long id;
+    private UUID id;
     private String brand;
     private int seats;
     private String carNumber;
+    @Enumerated(EnumType.STRING)
     private BusStatus busStatus;
     private String photoUrl;
     @OneToOne

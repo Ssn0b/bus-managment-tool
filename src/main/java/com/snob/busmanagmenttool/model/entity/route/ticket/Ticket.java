@@ -5,10 +5,7 @@ import com.snob.busmanagmenttool.model.entity.route.City;
 import com.snob.busmanagmenttool.model.entity.route.Trip;
 import com.snob.busmanagmenttool.model.entity.route.ticket.TicketStatus;
 import com.snob.busmanagmenttool.model.entity.user.User;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -31,7 +28,6 @@ public class Ticket {
     @JoinColumn(name = "user_id")
     private User user;
     private int seatNumber;
+    @Enumerated(EnumType.STRING)
     private TicketStatus status;
-    private Double ticketPrice;
-
 }

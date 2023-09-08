@@ -12,6 +12,7 @@ import com.snob.busmanagmenttool.repository.StopRepository;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -26,7 +27,7 @@ public class RouteService {
     private final ModelMapper modelMapper;
 
     public void saveRoute(RouteDTO routeDTO){
-        Long busId = routeDTO.getBusId();
+        UUID busId = routeDTO.getBusId();
         if (routeRepository.existsRouteByBusId(busId)) {
             throw new BusAlreadyHasRouteException("Bus with ID " + busId + " is already associated with an active route.");
         } else {

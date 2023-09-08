@@ -22,7 +22,7 @@ public class RepairDocument {
     @Id
     private String id;
     private String repairDocNum;
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "bus_id")
     private Bus bus;
     private Timestamp startDateOfRepair;

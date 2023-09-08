@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -18,7 +19,7 @@ import java.time.LocalDateTime;
 public class Trip {
     @Id
     @GeneratedValue
-    private Long id;
+    private UUID id;
     private String tripNumber;
     private LocalDateTime departureTime;
     private LocalDateTime arrivalTime;
@@ -31,4 +32,6 @@ public class Trip {
     @OneToOne
     @JoinColumn(name = "bus_id", nullable = false)
     private Bus bus;
+    private Double ticketPrice;
+
 }

@@ -42,6 +42,7 @@ public class AuthenticationService {
               .password(passwordEncoder.encode(request.getPassword()))
               .username(request.getUsername())
               .role(request.getRole())
+              .balance(request.getBalance())
               .workExperience(request.getExperience())
               .build();
     }else if(request.getRole() == Role.REPAIRMAN){
@@ -54,6 +55,7 @@ public class AuthenticationService {
               .role(request.getRole())
               .workExperience(request.getExperience())
               .specialization(request.getSpecialization())
+              .balance(request.getBalance())
               .build();
     }
     else {
@@ -64,6 +66,7 @@ public class AuthenticationService {
               .email(request.getEmail())
               .password(passwordEncoder.encode(request.getPassword()))
               .username(request.getUsername())
+              .balance(request.getBalance())
               .role(request.getRole())
               .build();
     }

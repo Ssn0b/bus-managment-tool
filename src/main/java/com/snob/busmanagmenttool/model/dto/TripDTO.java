@@ -17,6 +17,7 @@ import org.springframework.validation.annotation.Validated;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -24,11 +25,10 @@ import java.util.List;
 @Builder
 @Validated
 public class TripDTO {
-    private Long id;
     private String tripNumber;
     @NotNull(message  = "Bus id is required")
     @Positive(message = "Bus ID must be a positive integer")
-    private Long busId;
+    private UUID busId;
     @NotNull(message  = "Departure time is required")
     @FutureOrPresent
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
@@ -39,4 +39,6 @@ public class TripDTO {
     private LocalDateTime arrivalTime;
     private Long startStopId;
     private Long finishStopId;
+    private Double ticketPrice;
+
 }

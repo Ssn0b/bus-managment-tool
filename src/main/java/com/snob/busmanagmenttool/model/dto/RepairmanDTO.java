@@ -7,12 +7,14 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.UUID;
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
 @Builder
 public class RepairmanDTO {
-    private Long id;
+    private UUID id;
     private String firstname;
     private String lastname;
     private String email;

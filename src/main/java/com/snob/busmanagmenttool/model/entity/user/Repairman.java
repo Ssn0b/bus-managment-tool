@@ -1,6 +1,8 @@
 package com.snob.busmanagmenttool.model.entity.user;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -15,5 +17,6 @@ import lombok.experimental.SuperBuilder;
 @Entity
 public class Repairman extends User{
     private int workExperience;
+    @Enumerated(EnumType.STRING)
     private Specialization specialization;
 }

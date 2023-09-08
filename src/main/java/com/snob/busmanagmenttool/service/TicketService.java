@@ -13,9 +13,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -53,7 +51,7 @@ public class TicketService {
         TicketDTO ticketDTO = modelMapper.map(ticket, TicketDTO.class);
 
         if (updatedFields.containsKey("userId")) {
-            ticketDTO.setUserId((int) updatedFields.get("userId"));
+            ticketDTO.setUserId((UUID) updatedFields.get("userId"));
         }
         if (updatedFields.containsKey("seatNumber")) {
             if (ticketRepository.existsTicketBySeatNumber((int) updatedFields.get("seatNumber"))) {
@@ -64,9 +62,6 @@ public class TicketService {
         }
         if (updatedFields.containsKey("status")) {
             ticketDTO.setStatus((TicketStatus) updatedFields.get("status"));
-        }
-        if (updatedFields.containsKey("ticketPrice")) {
-            ticketDTO.setTicketPrice((double) updatedFields.get("ticketPrice"));
         }
         Ticket updatedTicket = modelMapper.map(ticketDTO, Ticket.class);
         return ticketRepository.save(updatedTicket);
@@ -90,5 +85,12 @@ public class TicketService {
     @Scheduled(fixedRate = 300000) // 5 minutes in milliseconds
     public void checkTicketArrivalTime() {
         updateTicketStatus();
+    }
+
+    public String generateRandomTicketNumber() {
+        Random random = new Random();
+        int randomNumber = random.nextInt(1000000);
+        String formattedNumber = String.format("%06d", randomNumber);
+        return "TICKET-" + formattedNumber;
     }
 }

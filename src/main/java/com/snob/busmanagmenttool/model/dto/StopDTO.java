@@ -10,7 +10,6 @@ import lombok.NoArgsConstructor;
 @Data
 @Builder
 public class StopDTO {
-    private Long id;
     private Long cityId;
     private String street;
 }

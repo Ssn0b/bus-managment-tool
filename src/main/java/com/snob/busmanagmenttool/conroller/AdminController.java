@@ -13,10 +13,7 @@ import com.snob.busmanagmenttool.service.user.BusDriverService;
 import com.snob.busmanagmenttool.service.user.UserService;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 import com.snob.busmanagmenttool.service.user.actions.FeedbackService;
 import lombok.RequiredArgsConstructor;
@@ -47,13 +44,13 @@ public class AdminController {
     }
     @GetMapping("/users/{id}")
     @PreAuthorize("hasAuthority('admin:read')")
-    public Optional<UserDTO> getUser(@PathVariable Long id) throws EntityNotFoundException{
+    public Optional<UserDTO> getUser(@PathVariable UUID id) throws EntityNotFoundException{
         return userService.getUserById(id);
     }
 
   @DeleteMapping("/buses/{id}")
   @PreAuthorize("hasAuthority('admin:delete')")
-  public ResponseEntity<String> deleteBus(@PathVariable Long id) throws EntityNotFoundException {
+  public ResponseEntity<String> deleteBus(@PathVariable UUID id) throws EntityNotFoundException {
         busService.deleteBusById(id);
         return ResponseEntity.ok("Bus deleted successfully.");
     }
@@ -67,7 +64,7 @@ public class AdminController {
     }
     @DeleteMapping("/driver/{id}")
     @PreAuthorize("hasAuthority('admin:delete')")
-    public void deleteBusDriver(@PathVariable Long id) throws EntityNotFoundException {
+    public void deleteBusDriver(@PathVariable UUID id) throws EntityNotFoundException {
         busDriverService.deleteBusDriverById(id);
     }
     @DeleteMapping("/feedback/{id}")

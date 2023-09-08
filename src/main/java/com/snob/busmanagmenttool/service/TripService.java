@@ -2,34 +2,62 @@ package com.snob.busmanagmenttool.service;
 
 import com.snob.busmanagmenttool.exception.BusAlreadyHasRouteException;
 import com.snob.busmanagmenttool.exception.EntityNotFoundException;
+import com.snob.busmanagmenttool.model.dto.BusDTO;
+import com.snob.busmanagmenttool.model.dto.TicketDTO;
 import com.snob.busmanagmenttool.model.dto.TripDTO;
+import com.snob.busmanagmenttool.model.entity.machinery.Bus;
 import com.snob.busmanagmenttool.model.entity.route.*;
-import com.snob.busmanagmenttool.repository.StopRepository;
+import com.snob.busmanagmenttool.model.entity.route.ticket.Ticket;
+import com.snob.busmanagmenttool.model.entity.route.ticket.TicketStatus;
+import com.snob.busmanagmenttool.repository.BusRepository;
+import com.snob.busmanagmenttool.repository.TicketRepository;
 import com.snob.busmanagmenttool.repository.TripRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeMap;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Service
 @RequiredArgsConstructor
 public class TripService {
     private final TripRepository tripRepository;
-    private final StopRepository stopRepository;
+    private final BusRepository busRepository;
+    private final TicketRepository ticketRepository;
+
+    private final TicketService ticketService;
     private final ModelMapper modelMapper;
     public void saveTrip(TripDTO tripDTO){
-        Long busId = tripDTO.getBusId();
+        Optional<Bus> busOptional = busRepository.findById(tripDTO.getBusId());
 
-        if (tripRepository.existsRouteByBusId(busId)) {
-            throw new BusAlreadyHasRouteException("Bus with ID " + busId + " is already associated with an active route.");
+        if (busOptional.isPresent()) {
+            Bus bus = busOptional.get();
+            if (tripRepository.existsRouteByBusId(tripDTO.getBusId())) {
+                throw new BusAlreadyHasRouteException("Bus with ID " + tripDTO.getBusId() + " is already associated with an active route.");
+            } else {
+                int numberOfSeats = bus.getSeats();
+                List<Ticket> ticketDTOS = IntStream.range(0, numberOfSeats).mapToObj(seatNumber -> {
+                            TicketDTO ticketDTO = new TicketDTO();
+                            ticketDTO.setTicketNumber(ticketService.generateRandomTicketNumber());
+                            ticketDTO.setUserId(null);
+                            ticketDTO.setSeatNumber(seatNumber + 1);
+                            ticketDTO.setStatus(TicketStatus.UNSOLD);
+                            return ticketDTO;
+                        })
+                        .map(ticketDTO->modelMapper.map(ticketDTO, Ticket.class))
+                        .toList();
+
+                ticketRepository.saveAll(ticketDTOS);
+                Trip trip = modelMapper.map(tripDTO, Trip.class);
+                tripRepository.save(trip);
+        }
         } else {
-            Trip trip = modelMapper.map(tripDTO, Trip.class);
-            tripRepository.save(trip);
+            throw new EntityNotFoundException("Bus with ID " + tripDTO.getBusId() + " is not exist.");
         }
     }
 
@@ -46,12 +74,12 @@ public class TripService {
                 .collect(Collectors.toList());
     }
 
-    public Optional<TripDTO> getTripById(Long id){
+    public Optional<TripDTO> getTripById(UUID id){
         Trip trip = tripRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Trip with ID " +
                 id + " not found."));
         return Optional.ofNullable(modelMapper.map(trip, TripDTO.class));
     }
-    public void deleteTripById(Long id){
+    public void deleteTripById(UUID id){
         if (tripRepository.existsById(id)) {
             tripRepository.deleteById(id);
         }else {
