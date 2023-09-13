@@ -40,6 +40,8 @@ public class TripService {
             if (tripRepository.existsRouteByBusId(tripDTO.getBusId())) {
                 throw new BusAlreadyHasRouteException("Bus with ID " + tripDTO.getBusId() + " is already associated with an active route.");
             } else {
+                Trip trip = modelMapper.map(tripDTO, Trip.class);
+                Trip newTrip = tripRepository.save(trip);
                 int numberOfSeats = bus.getSeats();
                 List<Ticket> ticketDTOS = IntStream.range(0, numberOfSeats).mapToObj(seatNumber -> {
                             TicketDTO ticketDTO = new TicketDTO();
@@ -47,14 +49,14 @@ public class TripService {
                             ticketDTO.setUserId(null);
                             ticketDTO.setSeatNumber(seatNumber + 1);
                             ticketDTO.setStatus(TicketStatus.UNSOLD);
+                            ticketDTO.setTripId(newTrip.getId());
                             return ticketDTO;
                         })
                         .map(ticketDTO->modelMapper.map(ticketDTO, Ticket.class))
                         .toList();
 
                 ticketRepository.saveAll(ticketDTOS);
-                Trip trip = modelMapper.map(tripDTO, Trip.class);
-                tripRepository.save(trip);
+               // tripRepository.save(newTrip);
         }
         } else {
             throw new EntityNotFoundException("Bus with ID " + tripDTO.getBusId() + " is not exist.");

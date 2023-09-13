@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.snob.busmanagmenttool.auth.AuthenticationRequest;
 import com.snob.busmanagmenttool.auth.AuthenticationResponse;
 import com.snob.busmanagmenttool.auth.RegisterRequest;
-import com.snob.busmanagmenttool.config.JwtService;
 import com.snob.busmanagmenttool.model.entity.user.BusDriver;
 import com.snob.busmanagmenttool.model.entity.user.Repairman;
 import com.snob.busmanagmenttool.model.entity.user.Role;

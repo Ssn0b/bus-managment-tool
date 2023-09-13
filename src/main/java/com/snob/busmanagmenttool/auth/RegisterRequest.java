@@ -2,15 +2,13 @@ package com.snob.busmanagmenttool.auth;
 
 import com.snob.busmanagmenttool.model.entity.user.Role;
 import com.snob.busmanagmenttool.model.entity.user.Specialization;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
 public class RegisterRequest {
     private String username;
     private String firstname;

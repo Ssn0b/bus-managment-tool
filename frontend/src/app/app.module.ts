@@ -5,20 +5,23 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
-import { NgImageSliderModule } from 'ng-image-slider'; // Add this line
+import { NgImageSliderModule } from 'ng-image-slider';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { NavbarComponent } from './navbar/navbar.component';
-import { HeaderComponent } from './header/header.component'; // <-- Import HeaderComponent
-import { HomeComponent } from './home/home.component';
+import { NavbarComponent } from './main/navbar/navbar.component';
+import { HeaderComponent } from './main/header/header.component';
+import { HomeComponent } from './main/home/home.component';
 import { PhotoCarouselComponent } from './photo-carousel/photo-carousel.component';
 import { CommonModule } from '@angular/common';
-
-// import { RegisterComponent } from '../auth/login/register/register.component';
-// import { LoginComponent } from '../auth/login/login.component';
-
-
+import { FormsModule } from '@angular/forms';
+import { RegistrationComponent } from './auth/registration/registration.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
+import { AuthenticationComponent } from './auth/authentication/authentication.component';
+import { MatSidenavModule } from '@angular/material/sidenav';
+// import { RouteListComponent } from './route-list/route-list.component';
+import { MatTableModule } from '@angular/material/table';
 
 @NgModule({
   declarations: [
@@ -27,8 +30,9 @@ import { CommonModule } from '@angular/common';
     NavbarComponent,
     PhotoCarouselComponent,
     HeaderComponent,
-    // RegisterComponent,
-    // LoginComponent
+    RegistrationComponent,
+    AuthenticationComponent,
+    // RouteListComponent,
   ],
   imports: [
     BrowserModule,
@@ -40,6 +44,13 @@ import { CommonModule } from '@angular/common';
     NgImageSliderModule, // Add this line
     AppRoutingModule,
     CommonModule,
+    FormsModule,
+    BrowserModule, 
+    AppRoutingModule, 
+    ReactiveFormsModule,
+    MatSidenavModule,
+    HttpClientModule,
+    MatTableModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

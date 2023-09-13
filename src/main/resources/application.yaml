@@ -45,6 +45,9 @@ cloud:
     secret-key: ${AWS_SECRET_KEY}
     region: ${AWS_REGION}
 
-
-
-
+paypal:
+  mode: sandbox
+  clientId: ATPfbrhbfCDSCu3vHPwk_faTNY91ZJOt9DIKfXnHBeyhEq7mRsI4Y8I3aEHzzxKoWms5jWTVQ9Eh7_hC
+  secret: EL4pC0OAfDdtz9aXYFm5G76bWifcd8QNczTUQjy6fflVWuEczawZSb1Da2EJasV10un-ZjYJ5lY07GOW
+  api:
+    base-url=: https://api.sandbox.paypal.com

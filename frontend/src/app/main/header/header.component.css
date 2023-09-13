@@ -33,3 +33,19 @@
   color: #fff; /* White button text color */
   margin-left: 10px; /* Add spacing between buttons */
 }
+.custom-button {
+  color: #ffffff; /* White text color */
+  background-color: #fdfdfd; /* Black background color */
+}
+.custom-menu-item {
+  color: #000000; /* Gray text color */
+  background-color: rgba(255, 255, 255, 0.8); /* Gray background color with 80% opacity */
+}
+::ng-deep .mat-menu-item {
+  /* Set a solid background color (e.g., gray) */
+  background-color: #666666; /* Change the color to your desired background color */
+  /* Set a solid text color (e.g., white) */
+  color: #ffffff; /* Change the color to your desired text color */
+}
+
+

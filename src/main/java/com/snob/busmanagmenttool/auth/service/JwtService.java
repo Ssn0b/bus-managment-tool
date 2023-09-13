@@ -1,4 +1,4 @@
-package com.snob.busmanagmenttool.config;
+package com.snob.busmanagmenttool.auth.service;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

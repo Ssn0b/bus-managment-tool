@@ -1,5 +1,6 @@
 package com.snob.busmanagmenttool.model.dto;
 
+import com.snob.busmanagmenttool.model.entity.route.Trip;
 import com.snob.busmanagmenttool.model.entity.route.ticket.TicketStatus;
 import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotNull;
@@ -26,12 +27,11 @@ public class TicketDTO {
     @Pattern(regexp = "TICKET-[0-9]{1,6}", message = "Invalid ticket number format")
     private String ticketNumber;
     private UUID userId;
+    private UUID tripId;
     @NotNull(message  = "Seat number is required")
     @Positive(message = "Seat number must be a positive integer")
     private int seatNumber;
     @NotNull(message  = "Ticket status is required")
     private TicketStatus status;
-//    @NotNull(message  = "Ticket price is required")
-//    @Positive(message = "Ticket price must be a positive value")
-//    private Double ticketPrice;
+
 }

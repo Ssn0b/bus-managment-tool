@@ -21,6 +21,7 @@ public interface BusRepository extends JpaRepository<Bus, Long> {
     void updateDriverIdToNull(UUID driverId);
 
     Optional<Bus> findById(UUID id);
+    Optional<Bus> findByCarNumber(String carNumber);
 
     void deleteById(UUID id);
 }

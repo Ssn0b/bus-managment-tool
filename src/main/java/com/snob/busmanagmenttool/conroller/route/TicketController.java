@@ -34,18 +34,12 @@ public class TicketController {
         return ticketDTO.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
 
-    @PostMapping
-    public ResponseEntity<Void> createTicket(@RequestBody TicketDTO ticketDTO) {
-        ticketService.createTicket(ticketDTO);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
-    }
-
     @PutMapping("/{id}")
     public ResponseEntity<String> updateTicket(
             @PathVariable String id,
             @RequestBody Map<String, Object> updatedFields
     ) {
-        ticketService.updateTicket(id, updatedFields);
+//        ticketService.updateTicket(id, updatedFields);
         return ResponseEntity.status(HttpStatus.OK)
                 .body("Ticket updated");
     }

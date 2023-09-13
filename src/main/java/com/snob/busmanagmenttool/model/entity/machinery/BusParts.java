@@ -52,7 +52,7 @@ public enum BusParts {
     SUNROOF("Sunroof"),
     CUP_HOLDERS("Cup holders"),
     TRUNK_COMPARTMENT("Trunk compartment"),
-    ENGINE_OIL("Enigne oil"),
+    ENGINE_OIL("Engine oil"),
     COOLANT("Coolant"),
     TRANSMISSION_FLUID("Transmission fluid"),
     BRAKE_FLUID("Brake fluid"),

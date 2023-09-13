@@ -1,5 +1,6 @@
-package com.snob.busmanagmenttool.config;
+package com.snob.busmanagmenttool.auth.service;
 
+import com.snob.busmanagmenttool.auth.service.JwtService;
 import com.snob.busmanagmenttool.token.TokenRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

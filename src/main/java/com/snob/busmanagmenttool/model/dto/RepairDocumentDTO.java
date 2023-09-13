@@ -1,34 +1,31 @@
-package com.snob.busmanagmenttool.model.entity.machinery;
+package com.snob.busmanagmenttool.model.dto;
 
+import com.snob.busmanagmenttool.model.entity.machinery.Bus;
+import com.snob.busmanagmenttool.model.entity.machinery.BusParts;
 import com.snob.busmanagmenttool.model.entity.user.Repairman;
-import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.UUID;
 
-@Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Document(collection = "repair")
-public class RepairDocument {
-    @Id
+@Data
+@Builder
+public class RepairDocumentDTO {
     private String id;
     private String repairDocNum;
-    @OneToOne
-    @JoinColumn(name = "bus_id")
-    private Bus bus;
+    private UUID busId;
     private Timestamp startDateOfRepair;
     private Timestamp endDateOfRepair;
     private List<BusParts> busPartsForRepair;
     private String description;
-    @OneToOne
-    @JoinColumn(name = "repairman_id", nullable = false)
-    private Repairman repairman;
+    private UUID repairmanId;
     private Double price;
 }

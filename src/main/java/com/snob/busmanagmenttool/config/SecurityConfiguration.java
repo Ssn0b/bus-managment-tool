@@ -4,6 +4,7 @@ import static com.snob.busmanagmenttool.model.entity.user.Permission.*;
 import static com.snob.busmanagmenttool.model.entity.user.Role.*;
 import static org.springframework.http.HttpMethod.*;
 
+import com.snob.busmanagmenttool.auth.service.JwtAuthenticationFilter;
 import com.snob.busmanagmenttool.exception.CustomAccessDeniedHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -17,11 +18,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.logout.LogoutHandler;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-
-import java.util.Arrays;
 
 @Configuration
 @EnableWebSecurity
@@ -37,7 +33,7 @@ public class SecurityConfiguration {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
         http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/v1/auth/**", "/v3/**").permitAll()
+                        .requestMatchers("/api/v1/auth/**", "/v3/**","/api/v1/paypal/**").permitAll()
 
                         .requestMatchers("/api/v1/admin/**").hasAnyRole(ADMIN.name())
 

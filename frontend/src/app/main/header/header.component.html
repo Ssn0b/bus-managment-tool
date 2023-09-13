@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- Include Bootstrap 5 CSS from CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/@angular/material@13.2.0/prebuilt-themes/indigo-pink.css" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvas" aria-controls="offcanvas">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Features</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Pricing</a>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Add a dropdown menu for "Login" and "Register" -->
+            <!-- <div class="dropdown">
+                <button class="btn btn-outline-light dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Action
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <a class="dropdown-item" href="/register">Register</a>
+                    <a class="dropdown-item" href="/authenticate">Login</a>
+                </div>
+            </div> -->
+            <button mat-button [matMenuTriggerFor]="menu" class="custom-button">Action</button>
+            <mat-menu #menu="matMenu">
+              <button mat-menu-item routerLink="/register" class="custom-menu-item">Register</button>
+              <button mat-menu-item routerLink="/authenticate" class="custom-menu-item">Login</button>
+          </mat-menu>
+
+        </div>
+    </nav>
+
+    <!-- Include Bootstrap 5 JavaScript from CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@angular/material@13.2.0/bundles/material.umd.js"></script>
+
+
+  </body>
+</html>
+
+
