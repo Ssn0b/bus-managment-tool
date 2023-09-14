@@ -33,7 +33,7 @@ public class SecurityConfiguration {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
         http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/v1/auth/**", "/v3/**","/api/v1/paypal/**").permitAll()
+                        .requestMatchers("/api/v1/auth/**", "/v3/**","/api/v1/paypal/**","/api/v1/routes/**").permitAll()
 
                         .requestMatchers("/api/v1/admin/**").hasAnyRole(ADMIN.name())
 

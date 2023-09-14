@@ -2,7 +2,10 @@ package com.snob.busmanagmenttool.service;
 
 import com.snob.busmanagmenttool.exception.EntityNotFoundException;
 import com.snob.busmanagmenttool.model.dto.StopDTO;
+import com.snob.busmanagmenttool.model.entity.machinery.Bus;
+import com.snob.busmanagmenttool.model.entity.route.City;
 import com.snob.busmanagmenttool.model.entity.route.Stop;
+import com.snob.busmanagmenttool.repository.CityRepository;
 import com.snob.busmanagmenttool.repository.StopRepository;
 import java.util.List;
 import java.util.Optional;
@@ -15,11 +18,17 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class StopService {
+    private final CityRepository cityRepository;
     private final StopRepository repository;
     private final ModelMapper modelMapper;
 
-    public Stop saveStop(StopDTO stop){
-        return repository.save(modelMapper.map(stop, Stop.class));
+    public Stop saveStop(StopDTO stopDTO){
+        City city = cityRepository.findById(stopDTO.getCityId()).orElseThrow(() -> new EntityNotFoundException("City with ID " +
+                stopDTO.getCityId() + " not found."));
+        Stop newStop = new Stop();
+        newStop.setCity(city);
+        newStop.setStreet(stopDTO.getStreet());
+        return repository.save(newStop);
     }
 
     public List<StopDTO> getAllStops(){

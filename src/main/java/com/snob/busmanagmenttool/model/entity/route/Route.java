@@ -21,10 +21,7 @@ public class Route {
     @GeneratedValue
     private Long id;
     private String name;
-  //    @ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
-  //    @JoinTable(name = "route_stop_mapping",
-  //            joinColumns = @JoinColumn(name = "route_id"),
-  //            inverseJoinColumns = @JoinColumn(name = "stop_id"))
+    private int routeNumber;
     @OneToMany(mappedBy = "route", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<RouteStop> routeStops = new ArrayList<>();
     private double distance;

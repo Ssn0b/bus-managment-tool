@@ -14,10 +14,10 @@ import lombok.NoArgsConstructor;
 @Data
 @Builder
 public class RouteDTO {
-    private Long id;
     private String name;
+    private int routeNumber;
     private List<Long> stopIds;
     private double distance;
-    private Duration duration;
+    private String duration;
     private UUID busId;
 }

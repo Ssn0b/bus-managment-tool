@@ -20,8 +20,10 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { AuthenticationComponent } from './auth/authentication/authentication.component';
 import { MatSidenavModule } from '@angular/material/sidenav';
-// import { RouteListComponent } from './route-list/route-list.component';
+import { RouteListComponent } from './route-list/route-list.component';
 import { MatTableModule } from '@angular/material/table';
+
+import { InactivityService } from 'src/services/inactivity-service/inactivity.service';
 
 @NgModule({
   declarations: [
@@ -32,7 +34,7 @@ import { MatTableModule } from '@angular/material/table';
     HeaderComponent,
     RegistrationComponent,
     AuthenticationComponent,
-    // RouteListComponent,
+    RouteListComponent,
   ],
   imports: [
     BrowserModule,
@@ -41,7 +43,7 @@ import { MatTableModule } from '@angular/material/table';
     MatButtonModule,
     MatIconModule,
     MatMenuModule,
-    NgImageSliderModule, // Add this line
+    NgImageSliderModule,
     AppRoutingModule,
     CommonModule,
     FormsModule,
@@ -52,7 +54,7 @@ import { MatTableModule } from '@angular/material/table';
     HttpClientModule,
     MatTableModule,
   ],
-  providers: [],
+  providers: [InactivityService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
