@@ -1,0 +1,69 @@
+<app-header></app-header>
+
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<!------ Include the above in your HEAD tag ---------->
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <script src="https://www.paypal.com/sdk/js?client-id=ATPfbrhbfCDSCu3vHPwk_faTNY91ZJOt9DIKfXnHBeyhEq7mRsI4Y8I3aEHzzxKoWms5jWTVQ9Eh7_hC"></script>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>eCommerce Product Detail</title>
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet">
+
+  </head>
+
+  <body>
+	
+	<div class="container">
+		<div class="card">
+		  <div class="container-fliud">
+			<div class="wrapper row">
+			  <div class="bus-container col-md-6">
+				<mat-grid-list cols="3" rowHeight="40px">
+					<div class="bus-seats">
+
+				  <ng-container *ngFor="let seatNumber of seats">
+					<div class="seat">
+						{{ seatNumber + 1 }}
+					</div>
+				  </ng-container>
+				  </div>
+				</mat-grid-list>
+			  </div>
+	  
+			  <div class="details col-md-6" *ngIf="trip">
+				<h3 class="product-title">{{ trip.tripNumber }}</h3>
+				<div class="rating">
+				  <div class="stars">
+					<span class="fa fa-star checked"></span>
+					<span class="fa fa-star checked"></span>
+					<span class="fa fa-star checked"></span>
+					<span class="fa fa-star"></span>
+					<span class="fa fa-star"></span>
+				  </div>
+				  <span class="review-no">41 reviews</span>
+				</div>
+				<p class="product-description">Suspendisse quos? Tempus cras iure temporibus? Eu laudantium cubilia sem sem! Repudiandae et! Massa senectus enim minim sociosqu delectus posuere.</p>
+				<h4 class="price">ticket price: <span>{{ trip.ticketPrice }}</span></h4>
+				<p class="vote">Departs from the city of <strong>{{ trip.startStop.city.name }}</strong> Arrives in the city of <strong>{{ trip.finishStop.city.name }}</strong></p>
+				<h5 class="sizes">arrival time: <span>{{ trip.arrivalTime }}</span> </h5>
+				<h5 class="colors">departure time: <span>{{ trip.departureTime }}</span> </h5>
+				<div class="action">
+					<button class="add-to-cart btn btn-default" type="button">Add to Cart</button>
+					<button class="btn btn-primary" (click)="redirectToPayPal()">Pay with PayPal</button>
+				  </div>
+			  </div>
+			</div>
+		  </div>
+		</div>
+	  </div>
+  </body>
+</html>

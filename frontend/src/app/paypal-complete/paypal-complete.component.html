@@ -1,0 +1,57 @@
+<app-header></app-header>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Success</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        h1 {
+            font-size: 36px;
+            color: green;
+            display: flex;
+            align-items: center;
+        }
+
+        .checkmark {
+            margin-left: 10px;
+            color: green;
+            font-size: 24px;
+        }
+
+        .back-to-home {
+            margin-top: 20px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 18px;
+            color: #007bff;
+            border: 2px solid #007bff;
+            padding: 10px 20px;
+            border-radius: 5px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .back-to-home:hover {
+            background-color: #007bff;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <h1>
+        Payment with PayPal is Successful
+        <span class="checkmark">&#10004;</span>
+    </h1>
+    <a href="/home" class="back-to-home">Back to Home</a>
+</body>
+</html>
