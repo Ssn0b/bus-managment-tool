@@ -27,7 +27,7 @@ public class TicketDTO {
     @Pattern(regexp = "TICKET-[0-9]{1,6}", message = "Invalid ticket number format")
     private String ticketNumber;
     private UUID userId;
-    private UUID tripId;
+    private TripDTO trip;
     @NotNull(message  = "Seat number is required")
     @Positive(message = "Seat number must be a positive integer")
     private int seatNumber;

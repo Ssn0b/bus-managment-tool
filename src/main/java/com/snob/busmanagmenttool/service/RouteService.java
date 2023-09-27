@@ -32,7 +32,8 @@ public class RouteService {
     private final ModelMapper modelMapper;
     private final TypeMap<Route, RouteDTO> routeTypeMap;
 
-    public RouteService(RouteRepository routeRepository, StopRepository stopRepository, BusRepository busRepository, ModelMapper modelMapper) {
+    public RouteService(RouteRepository routeRepository, StopRepository stopRepository,
+                        BusRepository busRepository, ModelMapper modelMapper) {
         this.routeRepository = routeRepository;
         this.stopRepository = stopRepository;
         this.busRepository = busRepository;

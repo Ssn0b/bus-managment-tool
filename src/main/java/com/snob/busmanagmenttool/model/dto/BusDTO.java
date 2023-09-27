@@ -15,6 +15,7 @@ import java.util.UUID;
 @Data
 @Builder
 public class BusDTO{
+    private UUID id;
     private String brand;
     private Integer seats;
     private String carNumber;

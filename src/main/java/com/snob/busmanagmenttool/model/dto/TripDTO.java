@@ -26,19 +26,15 @@ import java.util.UUID;
 @Validated
 public class TripDTO {
     private String tripNumber;
-    @NotNull(message  = "Bus id is required")
-    @Positive(message = "Bus ID must be a positive integer")
-    private UUID busId;
-    @NotNull(message  = "Departure time is required")
+    private BusDTO bus;
     @FutureOrPresent
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private LocalDateTime departureTime;
-    @NotNull(message  = "Arrival time is required")
     @FutureOrPresent
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private LocalDateTime arrivalTime;
-    private Long startStopId;
-    private Long finishStopId;
+    private StopDTO startStop;
+    private StopDTO finishStop;
     private Double ticketPrice;
 
 }

@@ -1,30 +1,27 @@
 package com.snob.busmanagmenttool.config;
 
+import com.paypal.base.rest.APIContext;
+import com.paypal.base.rest.OAuthTokenCredential;
+import com.paypal.base.rest.PayPalRESTException;
+import java.util.HashMap;
+import java.util.Map;
+// @TODO НЕ ПРАЦюЄЄЄЄЄЄЄЄЄЄЄЄЄЄЄЄЄЄ
+import com.paypal.core.PayPalEnvironment;
+import com.paypal.core.PayPalHttpClient;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-//@TODO НЕ ПРАЦюЄЄЄЄЄЄЄЄЄЄЄЄЄЄЄЄЄЄ
 
 @Configuration
 public class PayPalConfig {
+  @Value("${paypal.clientId}")
+  private String clientId; // Your PayPal client ID
 
-    @Value("${paypal.mode}")
-    private String mode; // Should be "sandbox" or "live" based on your environment
-
-    @Value("${paypal.clientId}")
-    private String clientId; // Your PayPal client ID
-
-    @Value("${paypal.secret}")
-    private String clientSecret; // Your PayPal secret
-
-    public String getMode() {
-        return mode;
-    }
-
-    public String getClientId() {
-        return clientId;
-    }
-
-    public String getClientSecret() {
-        return clientSecret;
-    }
+  @Value("${paypal.secret}")
+  private String clientSecret; // Your PayPal secret
+  @Bean
+  public PayPalHttpClient payPalHttpClient() {
+    PayPalEnvironment environment = new PayPalEnvironment.Sandbox(clientId, clientSecret);
+    return new PayPalHttpClient(environment);
+  }
 }

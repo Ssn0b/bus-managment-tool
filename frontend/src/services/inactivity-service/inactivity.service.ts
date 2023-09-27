@@ -1,31 +1,27 @@
-import { Injectable, HostListener } from '@angular/core';
+import { Injectable } from '@angular/core';
 
 @Injectable({
   providedIn: 'root'
 })
 export class InactivityService {
-  private inactivityTimeout: any;
+  private inactivityTimer: any;
 
-  constructor() { }
+  constructor() {}
 
-  startInactivityTimer(callback: () => void, timeout: number) {
-    clearTimeout(this.inactivityTimeout);
-    this.inactivityTimeout = setTimeout(() => {
-      callback(); // Execute the callback function (e.g., clearLocalStorage) after the specified timeout.
-    }, timeout);
+  startInactivityTimer() {
+    this.stopInactivityTimer(); // Перед запуском нового таймера спочатку зупиніть попередній, якщо він існує.
+
+    this.inactivityTimer = setTimeout(() => {
+      // Код, який виконується після 15 хвилин неактивності.
+      localStorage.removeItem('userRole');
+      localStorage.removeItem('accessToken');
+
+    }, 15 * 60 * 1000); // 15 хвилин в мілісекундах
   }
 
-  resetInactivityTimer() {
-    clearTimeout(this.inactivityTimeout);
-  }
-
-  @HostListener('window:beforeunload', ['$event'])
-  onBeforeUnload(event: Event): void {
-    // Clear localStorage when the browser is closed.
-    this.clearLocalStorage();
-  }
-
-  private clearLocalStorage() {
-    localStorage.clear(); // Clear all items in localStorage.
+  stopInactivityTimer() {
+    if (this.inactivityTimer) {
+      clearTimeout(this.inactivityTimer);
+    }
   }
 }

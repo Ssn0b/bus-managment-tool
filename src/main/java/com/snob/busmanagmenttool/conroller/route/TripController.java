@@ -1,5 +1,6 @@
 package com.snob.busmanagmenttool.conroller.route;
 
+import com.amazonaws.services.dynamodbv2.xspec.S;
 import com.snob.busmanagmenttool.exception.EntityNotFoundException;
 import com.snob.busmanagmenttool.model.dto.TripDTO;
 import com.snob.busmanagmenttool.service.TripService;
@@ -32,14 +33,9 @@ public class TripController {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body("Trip added");
     }
-//    @GetMapping
-//    @PreAuthorize("hasAuthority('admin:read') || hasAuthority('management:read')")
-//    public List<TripDTO> getTrips() {
-//        return tripService.getAllTrips();
-//    }
     @GetMapping("/{id}")
     @PreAuthorize("hasAuthority('admin:read') || hasAuthority('management:read')")
-    public Optional<TripDTO> getTrip(@PathVariable UUID id) throws EntityNotFoundException {
+    public Optional<TripDTO> getTripById(@PathVariable UUID id) throws EntityNotFoundException {
         return tripService.getTripById(id);
     }
     @DeleteMapping("/{id}")

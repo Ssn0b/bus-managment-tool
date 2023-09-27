@@ -1,38 +1,31 @@
 package com.snob.busmanagmenttool.conroller;
 
 
-import com.paypal.base.rest.PayPalRESTException;
+import com.paypal.api.payments.Order;
+import com.paypal.api.payments.Payment;
+import  com.paypal.base.rest.PayPalRESTException;
 import com.snob.busmanagmenttool.model.entity.paypal.PaymentRequest;
 import com.snob.busmanagmenttool.service.PaypalService;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-//@TODO НЕ ПРАЦюЄЄЄЄЄЄЄЄЄЄЄЄЄЄЄЄЄЄ
+
+import java.net.http.HttpResponse;
+import java.util.Map;
+
 @RestController
 @RequestMapping("/api/v1/paypal")
 @RequiredArgsConstructor
 public class PaypalController {
-    private final PaypalService paypalService;
-    @PostMapping("/create-payment")
-    public ResponseEntity<String> createPayment(@RequestBody PaymentRequest paymentRequest) throws PayPalRESTException {
-        // Create a PayPal payment and get the approval URL
-        String approvalUrl = paypalService.createPayment(paymentRequest);
-        return ResponseEntity.ok(approvalUrl);
+    private final PaypalService payPalService;
+    @PostMapping(value = "/make/payment")
+    public Map<String, Object> makePayment(@RequestParam("sum") String sum){
+        return payPalService.createPayment(sum);
     }
-
-    @GetMapping("/execute-payment")
-    public ResponseEntity<String> executePayment(@RequestParam("paymentId") String paymentId, @RequestParam("payerId") String payerId) throws PayPalRESTException {
-        // Execute the PayPal payment
-        String result = paypalService.executePayment(paymentId, payerId);
-        return ResponseEntity.ok(result);
-    }
-    @GetMapping("/cancel")
-    public String handleCancel() {
-        return "Payment canceled. Your order has not been processed.";
-    }
-
-    @GetMapping("/success")
-    public String handleSuccess() {
-        return "Payment successful. Your order has been processed.";
+    @PostMapping(value = "/complete/payment")
+    public ResponseEntity<String> completePayment(HttpServletRequest request){
+        return payPalService.completePayment(request);
     }
 }

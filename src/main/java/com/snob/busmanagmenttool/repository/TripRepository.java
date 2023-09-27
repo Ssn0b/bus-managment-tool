@@ -10,9 +10,9 @@ import java.util.UUID;
 @Repository
 public interface TripRepository extends JpaRepository<Trip, Long> {
     boolean existsRouteByBusId(UUID id);
-
+    boolean existsTripByBusId(UUID id);
     Optional<Trip> findById(UUID id);
-
+    Optional<Trip> findByTripNumber(String tripNum);
     boolean existsById(UUID id);
 
     void deleteById(UUID id);

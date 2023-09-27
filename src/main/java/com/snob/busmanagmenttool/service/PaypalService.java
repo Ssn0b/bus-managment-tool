@@ -1,86 +1,91 @@
 package com.snob.busmanagmenttool.service;
 
-import com.google.common.collect.Lists;
 import com.paypal.api.payments.*;
 import com.paypal.base.rest.APIContext;
 import com.paypal.base.rest.PayPalRESTException;
-import com.snob.busmanagmenttool.model.entity.paypal.PaymentRequest;
-import lombok.RequiredArgsConstructor;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-//@TODO НЕ ПРАЦюЄЄЄЄЄЄЄЄЄЄЄЄЄЄЄЄЄЄ
+import com.paypal.core.PayPalHttpClient;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import lombok.RequiredArgsConstructor;
 
 
 @Service
 @RequiredArgsConstructor
 public class PaypalService {
-    @Value("${paypal.client-id}")
-    private String clientId;
+  private final PayPalHttpClient payPalClient;
+  @Value("${paypal.clientId}")
+  private String clientId;
+  @Value("${paypal.secret}")
+  private String clientSecret;
+  public Map<String, Object> createPayment(String sum){
+    Map<String, Object> response = new HashMap<String, Object>();
+    Amount amount = new Amount();
+    amount.setCurrency("USD");
+    amount.setTotal(sum);
+    Transaction transaction = new Transaction();
+    transaction.setAmount(amount);
+    List<Transaction> transactions = new ArrayList<Transaction>();
+    transactions.add(transaction);
 
-    @Value("${paypal.secret}")
-    private String secret;
+    Payer payer = new Payer();
+    payer.setPaymentMethod("paypal");
 
-    @Value("${paypal.api.base-url}")
-    private String apiUrl;
+    Payment payment = new Payment();
+    payment.setIntent("sale");
+    payment.setPayer(payer);
+    payment.setTransactions(transactions);
 
-    public String createPayment(PaymentRequest paymentRequest) throws PayPalRESTException {
-        APIContext apiContext = new APIContext(clientId, secret, "sandbox"); // Use "sandbox" for testing
-
-        // Create a payment object
-        Payment payment = new Payment();
-        payment.setIntent(paymentRequest.getIntent());
-
-        Payer payer = new Payer();
-        payer.setPaymentMethod(paymentRequest.getMethod());
-        payment.setPayer(payer);
-
-        Amount amount = new Amount();
-        amount.setTotal(paymentRequest.getTotal().toString());
-        amount.setCurrency(paymentRequest.getCurrency());
-
-        Transaction transaction = new Transaction();
-        transaction.setDescription(paymentRequest.getDescription());
-        transaction.setAmount(amount); // Set the amount within the transaction
-
-        Item item = new Item();
-        item.setName(paymentRequest.getDescription());
-        item.setQuantity("1");
-        item.setPrice(paymentRequest.getTotal().toString());
-        item.setCurrency(paymentRequest.getCurrency());
-        item.setSku("SKU");
-
-        ItemList itemList = new ItemList();
-        itemList.setItems(Lists.newArrayList(item));
-        transaction.setItemList(itemList);
-
-        payment.setTransactions(Lists.newArrayList(transaction));
-
-        Payment createdPayment = payment.create(apiContext);
-
-        for (Links link : createdPayment.getLinks()) {
-            if (link.getRel().equals("approval_url")) {
-                return link.getHref();
-            }
+    RedirectUrls redirectUrls = new RedirectUrls();
+    redirectUrls.setCancelUrl("http://localhost:4200/cancel");
+    redirectUrls.setReturnUrl("http://localhost:4200/complete-payment");
+    payment.setRedirectUrls(redirectUrls);
+    Payment createdPayment;
+    try {
+      String redirectUrl = "";
+      APIContext context = new APIContext(clientId, clientSecret, "sandbox");
+      createdPayment = payment.create(context);
+      if(createdPayment!=null){
+        List<Links> links = createdPayment.getLinks();
+        for (Links link:links) {
+          if(link.getRel().equals("approval_url")){
+            redirectUrl = link.getHref();
+            break;
+          }
         }
-
-        return null;
+        response.put("status", "success");
+        response.put("redirect_url", redirectUrl);
+      }
+    } catch (PayPalRESTException e) {
+      System.out.println("Error happened during payment creation!");
     }
+    return response;
+  }
 
-    public String executePayment(String paymentId, String payerId) throws PayPalRESTException {
-        APIContext apiContext = new APIContext(clientId, secret, "sandbox"); // Use "sandbox" for testing
+  public ResponseEntity<String> completePayment(HttpServletRequest req){
+    Map<String, Object> response = new HashMap<>();
+    Payment payment = new Payment();
+    payment.setId(req.getParameter("paymentId"));
 
-        PaymentExecution paymentExecution = new PaymentExecution();
-        paymentExecution.setPayerId(payerId);
-
-        Payment payment = new Payment();
-        payment.setId(paymentId);
-
-        Payment executedPayment = payment.execute(apiContext, paymentExecution);
-
-        if (executedPayment.getState().equals("approved")) {
-            return "Payment successful. Your order has been processed.";
-        } else {
-            return "Payment not approved.";
-        }
+    PaymentExecution paymentExecution = new PaymentExecution();
+    paymentExecution.setPayerId(req.getParameter("PayerID"));
+    try {
+      APIContext context = new APIContext(clientId, clientSecret, "sandbox");
+      Payment createdPayment = payment.execute(context, paymentExecution);
+      if(createdPayment!=null){
+        System.out.println(createdPayment.toJSON());
+        response.put("status", "success");
+        response.put("payment", createdPayment);
+      }
+    } catch (PayPalRESTException e) {
+      System.err.println(e.getDetails());
     }
+    return  ResponseEntity.ok(response.toString());
+  }
 }

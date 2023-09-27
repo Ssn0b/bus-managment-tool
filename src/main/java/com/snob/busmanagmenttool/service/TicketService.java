@@ -98,14 +98,16 @@ public class TicketService {
                 id + " not found."));
         ticketRepository.deleteById(id);
     }
-    public void updateTicketStatus() {
+    public void updateTicketStatus() { //@TODO update this method
         List<Ticket> tickets = ticketRepository.findByStatusNot(TicketStatus.EXPIRED);
         LocalDateTime now = LocalDateTime.now();
         for (Ticket ticket : tickets) {
             if (ticket.getTrip() != null) {
-                if (ticket.getTrip().getDepartureTime().isBefore(now)) {
-                    ticket.setStatus(TicketStatus.EXPIRED);
-                    ticketRepository.save(ticket);
+                if (ticket.getTrip().getDepartureTime() != null) {
+                    if (ticket.getTrip().getDepartureTime().isBefore(now)) {
+                        ticket.setStatus(TicketStatus.EXPIRED);
+                            ticketRepository.save(ticket);
+                    }
                 }
             }
         }
