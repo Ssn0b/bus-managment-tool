@@ -2,8 +2,10 @@ package com.snob.busmanagmenttool.service;
 
 import com.snob.busmanagmenttool.exception.BusAlreadyHasRouteException;
 import com.snob.busmanagmenttool.exception.EntityNotFoundException;
+import com.snob.busmanagmenttool.model.dto.BusDTO;
 import com.snob.busmanagmenttool.model.dto.TicketDTO;
 import com.snob.busmanagmenttool.model.dto.TripDTO;
+import com.snob.busmanagmenttool.model.dto.TripInfoForTicketDTO;
 import com.snob.busmanagmenttool.model.entity.machinery.Bus;
 import com.snob.busmanagmenttool.model.entity.route.*;
 import com.snob.busmanagmenttool.model.entity.route.ticket.Ticket;
@@ -72,6 +74,7 @@ public class TripService {
       Trip trip = modelMapper.map(tripDTO, Trip.class);
       trip.setStartStop(startStop);
       trip.setFinishStop(finalStop);
+      trip.setBus(bus);
       Trip newTrip = tripRepository.save(trip);
       int numberOfSeats = bus.getSeats();
       List<Ticket> ticketDTOS =
@@ -80,7 +83,6 @@ public class TripService {
                   seatNumber ->
                       TicketDTO.builder()
                           .ticketNumber(ticketService.generateRandomTicketNumber())
-                          .userId(null)
                           .seatNumber(seatNumber + 1)
                           .status(TicketStatus.UNSOLD)
                           .trip(modelMapper.map(newTrip, TripDTO.class))

@@ -1,18 +1,10 @@
 package com.snob.busmanagmenttool.conroller;
-
-
-import com.paypal.api.payments.Order;
-import com.paypal.api.payments.Payment;
-import  com.paypal.base.rest.PayPalRESTException;
-import com.snob.busmanagmenttool.model.entity.paypal.PaymentRequest;
 import com.snob.busmanagmenttool.service.PaypalService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.net.http.HttpResponse;
 import java.util.Map;
 
 @RestController

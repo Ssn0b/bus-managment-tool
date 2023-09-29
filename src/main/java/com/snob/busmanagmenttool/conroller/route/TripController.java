@@ -25,7 +25,6 @@ public class TripController {
     @PostMapping
     @PreAuthorize("hasAuthority('admin:create') || hasAuthority('management:create')")
     public ResponseEntity<String> addTrip(@RequestBody TripDTO trip) {
-
         log.info("start adding trip...");
         tripService.saveTrip(trip);
         log.info("added");

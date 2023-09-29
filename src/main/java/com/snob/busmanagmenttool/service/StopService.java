@@ -37,10 +37,6 @@ public class StopService {
 
   public List<StopDTO> getAllStops() {
     TypeMap<Stop, StopDTO> typeMap = modelMapper.createTypeMap(Stop.class, StopDTO.class);
-    typeMap.addMappings(
-        mapper -> {
-          mapper.map(Stop::getCity, StopDTO::setCity);
-        });
     return repository.findAll().stream()
         .map(stop -> modelMapper.map(stop, StopDTO.class))
         .collect(Collectors.toList());

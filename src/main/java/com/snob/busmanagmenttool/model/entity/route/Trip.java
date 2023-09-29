@@ -2,10 +2,7 @@ package com.snob.busmanagmenttool.model.entity.route;
 
 import com.snob.busmanagmenttool.model.entity.machinery.Bus;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -25,9 +22,11 @@ public class Trip {
     private LocalDateTime arrivalTime;
     @ManyToOne
     @JoinColumn(name = "start_stop_id", nullable = false)
+    @ToString.Exclude
     private Stop startStop;
     @ManyToOne
     @JoinColumn(name = "finish_stop_id", nullable = false)
+    @ToString.Exclude
     private Stop finishStop;
     @OneToOne
     @JoinColumn(name = "bus_id", nullable = false)

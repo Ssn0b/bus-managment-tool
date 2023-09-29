@@ -48,9 +48,9 @@ public class AdminController {
         return userService.getUserById(id);
     }
 
-  @DeleteMapping("/buses/{id}")
-  @PreAuthorize("hasAuthority('admin:delete')")
-  public ResponseEntity<String> deleteBus(@PathVariable UUID id) throws EntityNotFoundException {
+    @DeleteMapping("/buses/{id}")
+    @PreAuthorize("hasAuthority('admin:delete')")
+    public ResponseEntity<String> deleteBus(@PathVariable UUID id) throws EntityNotFoundException {
         busService.deleteBusById(id);
         return ResponseEntity.ok("Bus deleted successfully.");
     }

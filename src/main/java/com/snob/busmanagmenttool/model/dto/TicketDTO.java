@@ -2,6 +2,7 @@ package com.snob.busmanagmenttool.model.dto;
 
 import com.snob.busmanagmenttool.model.entity.route.Trip;
 import com.snob.busmanagmenttool.model.entity.route.ticket.TicketStatus;
+import com.snob.busmanagmenttool.model.entity.user.User;
 import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
@@ -26,7 +27,7 @@ public class TicketDTO {
     @NotNull(message  = "Ticket number is required")
     @Pattern(regexp = "TICKET-[0-9]{1,6}", message = "Invalid ticket number format")
     private String ticketNumber;
-    private UUID userId;
+    private UserDTO user;
     private TripDTO trip;
     @NotNull(message  = "Seat number is required")
     @Positive(message = "Seat number must be a positive integer")

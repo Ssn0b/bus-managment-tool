@@ -3,10 +3,8 @@ package com.snob.busmanagmenttool.model.entity.route;
 import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+
+import lombok.*;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.NaturalIdCache;
 
@@ -26,9 +24,11 @@ public class Stop {
     private Long id;
     @ManyToOne
     @JoinColumn(name = "city_id", nullable = false)
+    @ToString.Exclude
     private City city;
     private String street;
     @OneToMany(mappedBy = "stop", cascade = CascadeType.ALL, orphanRemoval = true)
+    @ToString.Exclude
     private List<RouteStop> routeStops = new ArrayList<>();
 
 }
