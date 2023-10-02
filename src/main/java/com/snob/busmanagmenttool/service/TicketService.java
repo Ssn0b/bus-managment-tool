@@ -125,9 +125,7 @@ public class TicketService {
     LocalDateTime now = LocalDateTime.now();
     for (TicketDTO ticketDTO : ticketDTOS) {
       if (ticketDTO.getTrip() != null && ticketDTO.getTrip().getDepartureTime() != null) {
-        log.warn("Alo pruyom");
           if (ticketDTO.getTrip().getDepartureTime().isBefore(now)) {
-            log.warn("Alo pohuy");
             ticketDTO.setStatus(TicketStatus.EXPIRED);
             ticketRepository.save(modelMapper.map(ticketDTO, Ticket.class));
           }

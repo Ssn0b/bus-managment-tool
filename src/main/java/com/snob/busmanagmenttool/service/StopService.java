@@ -11,7 +11,6 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.modelmapper.TypeMap;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -21,7 +20,7 @@ public class StopService {
   private final StopRepository repository;
   private final ModelMapper modelMapper;
 
-  public Stop saveStop(StopDTO stopDTO) {
+  public void saveStop(StopDTO stopDTO) {
     City city =
         cityRepository
             .findById(stopDTO.getCity().getId())
@@ -32,11 +31,10 @@ public class StopService {
     Stop newStop = new Stop();
     newStop.setCity(city);
     newStop.setStreet(stopDTO.getStreet());
-    return repository.save(newStop);
+    repository.save(newStop);
   }
 
   public List<StopDTO> getAllStops() {
-    TypeMap<Stop, StopDTO> typeMap = modelMapper.createTypeMap(Stop.class, StopDTO.class);
     return repository.findAll().stream()
         .map(stop -> modelMapper.map(stop, StopDTO.class))
         .collect(Collectors.toList());
@@ -51,10 +49,10 @@ public class StopService {
   }
 
   public void deleteStopById(Long id) {
-    Stop stop =
-        repository
-            .findById(id)
-            .orElseThrow(() -> new EntityNotFoundException("Stop with ID " + id + " not found."));
-    repository.deleteById(id);
+    if (repository.existsById(id)) {
+      repository.deleteById(id);
+    } else {
+      throw new EntityNotFoundException("Stop with ID " + id + " not found.");
+    }
   }
 }

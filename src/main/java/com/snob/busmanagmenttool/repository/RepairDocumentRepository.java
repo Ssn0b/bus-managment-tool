@@ -5,4 +5,6 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface RepairDocumentRepository extends MongoRepository<RepairDocument, String> {}
+public interface RepairDocumentRepository extends MongoRepository<RepairDocument, String> {
+    boolean existsByRepairDocNum(String repairDocNum);
+}

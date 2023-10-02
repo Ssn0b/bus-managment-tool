@@ -2,10 +2,8 @@ package com.snob.busmanagmenttool.service;
 
 import com.snob.busmanagmenttool.exception.BusAlreadyHasRouteException;
 import com.snob.busmanagmenttool.exception.EntityNotFoundException;
-import com.snob.busmanagmenttool.model.dto.BusDTO;
 import com.snob.busmanagmenttool.model.dto.TicketDTO;
 import com.snob.busmanagmenttool.model.dto.TripDTO;
-import com.snob.busmanagmenttool.model.dto.TripInfoForTicketDTO;
 import com.snob.busmanagmenttool.model.entity.machinery.Bus;
 import com.snob.busmanagmenttool.model.entity.route.*;
 import com.snob.busmanagmenttool.model.entity.route.ticket.Ticket;
@@ -17,7 +15,6 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import org.modelmapper.ModelMapper;
-import org.modelmapper.TypeMap;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -65,7 +62,6 @@ public class TripService {
                 () ->
                     new EntityNotFoundException(
                         "Stop with id " + tripDTO.getFinishStop().getId() + " not found."));
-    ;
     if (tripRepository.existsRouteByBusId(tripDTO.getBus().getId())
         || tripRepository.existsTripByBusId(tripDTO.getBus().getId())) {
       throw new BusAlreadyHasRouteException(

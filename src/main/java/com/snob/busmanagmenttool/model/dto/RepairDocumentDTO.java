@@ -21,11 +21,11 @@ import java.util.UUID;
 public class RepairDocumentDTO {
     private String id;
     private String repairDocNum;
-    private UUID busId;
+    private BusDTO bus;
     private Timestamp startDateOfRepair;
     private Timestamp endDateOfRepair;
     private List<BusParts> busPartsForRepair;
     private String description;
-    private UUID repairmanId;
+    private RepairmanDTO repairman;
     private Double price;
 }

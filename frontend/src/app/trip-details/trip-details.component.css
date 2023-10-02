@@ -194,4 +194,36 @@ body {
 }
 
 
+/* cinema-seats.component.css */
+.cinema-seats {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.row {
+  display: flex;
+  gap: 10px;
+}
+
+.column {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.seat {
+  width: 40px;
+  height: 40px;
+  background-color: #ccc;
+  text-align: center;
+  line-height: 40px;
+  cursor: pointer;
+}
+
+.selected {
+  background-color: #ff5733; /* Change the color for selected seats */
+  color: white;
+}
 
