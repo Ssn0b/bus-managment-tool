@@ -4,6 +4,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.snob.busmanagmenttool.auth.AuthenticationRequest;
 import com.snob.busmanagmenttool.auth.AuthenticationResponse;
 import com.snob.busmanagmenttool.auth.RegisterRequest;
+import com.snob.busmanagmenttool.exception.EmailNotConfirmedException;
+import com.snob.busmanagmenttool.exception.RegistrationException;
 import com.snob.busmanagmenttool.model.entity.user.BusDriver;
 import com.snob.busmanagmenttool.model.entity.user.Repairman;
 import com.snob.busmanagmenttool.model.entity.user.Role;
@@ -15,12 +17,15 @@ import com.snob.busmanagmenttool.token.TokenType;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.UUID;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -30,8 +35,13 @@ public class AuthenticationService {
   private final PasswordEncoder passwordEncoder;
   private final JwtService jwtService;
   private final AuthenticationManager authenticationManager;
+  private final EmailConfirmationService emailConfirmationService;
 
+  @Transactional
   public AuthenticationResponse register(RegisterRequest request) {
+    if (repository.existsByEmailOrUsername(request.getEmail(),request.getUsername())){
+      throw new RegistrationException("User with the same email or username already exists.");
+    }
     User user;
     if (request.getRole() == Role.DRIVER) {
       user = BusDriver.builder()
@@ -69,10 +79,14 @@ public class AuthenticationService {
               .role(request.getRole())
               .build();
     }
+    UUID confirmationToken = emailConfirmationService.generateConfirmationToken(user);
     var savedUser = repository.save(user);
     var jwtToken = jwtService.generateToken(user);
     var refreshToken = jwtService.generateRefreshToken(user);
     saveUserToken(savedUser, jwtToken);
+
+    emailConfirmationService.sendConfirmationEmail(user.getEmail(), String.valueOf(confirmationToken));
+
     return AuthenticationResponse.builder()
             .accessToken(jwtToken)
             .refreshToken(refreshToken)
@@ -88,6 +102,11 @@ public class AuthenticationService {
     );
     var user = repository.findByUsername(request.getUsername())
             .orElseThrow();
+
+    if (!user.isConfirmedByEmail()) {
+      throw new EmailNotConfirmedException("Email not confirmed for this user.");
+    }
+
     var jwtToken = jwtService.generateToken(user);
     var refreshToken = jwtService.generateRefreshToken(user);
     revokeAllUserTokens(user);
@@ -95,6 +114,7 @@ public class AuthenticationService {
     return AuthenticationResponse.builder()
             .accessToken(jwtToken)
             .refreshToken(refreshToken)
+            .role(user.getRole())
             .build();
   }
 

@@ -14,7 +14,6 @@ export class HeaderComponent implements OnInit{
 
   constructor(private router: Router, private inactivityService: InactivityService) {
     this.userRole = localStorage.getItem('userRole');
-    console.log("JA V AHUJI" + localStorage.getItem('userRole'));
     window.addEventListener('beforeunload', (event) => {
       localStorage.removeItem('userRole');
     });

@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
+import { PopupDialogComponent } from 'src/app/popup-dialog/popup-dialog.component';
+import { AxiosService } from 'src/services/axios-service/axios.service';
 
 @Component({
   selector: 'app-registration',
@@ -11,7 +13,7 @@ import { Router } from '@angular/router';
 export class RegistrationComponent {
   registrationForm: FormGroup;
 
-  constructor(private fb: FormBuilder, private http: HttpClient, private router: Router) {
+  constructor(private fb: FormBuilder, private axiosService: AxiosService, private router: Router, private dialog: MatDialog) {
     this.registrationForm = this.fb.group({
       firstname: ['', Validators.required],
       lastname: ['', Validators.required],
@@ -31,18 +33,26 @@ export class RegistrationComponent {
         role: "USER"
       };
       console.log('Form Data:', formData);
-
-      // Make an HTTP POST request to your backend
-      this.http.post('http://localhost:8080/api/v1/auth/register', formData)
-        .subscribe({
-              next: (response) => {
-                      this.router.navigate(['/authenticate']);
-                      console.log('Registration successful', response);
-              },
-              error: (error) => {
-                      console.error('Registration error', error);
-              },
-        });
+          this.axiosService
+            .request('POST', `/auth/register`, formData)
+            .then((response: any) => {
+              this.openPopupDialog('Registration successful', 'Confirmation was sent to your email!');
+              this.router.navigate(['/authenticate']);
+              console.log('Registration successful', response);
+            })
+            .catch((error: any) => {
+              this.openPopupDialog('Registration failed', 'Please try again.');
+            });
     }
+  }
+  openPopupDialog(title: string, message: string): void {
+    const dialogRef = this.dialog.open(PopupDialogComponent, {
+      width: '300px',
+      data: { title, message },
+    });
+  
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+    });
   }
 }

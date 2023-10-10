@@ -1,11 +1,5 @@
 package com.snob.busmanagmenttool.config;
 
-import com.paypal.base.rest.APIContext;
-import com.paypal.base.rest.OAuthTokenCredential;
-import com.paypal.base.rest.PayPalRESTException;
-import java.util.HashMap;
-import java.util.Map;
-// @TODO НЕ ПРАЦюЄЄЄЄЄЄЄЄЄЄЄЄЄЄЄЄЄЄ
 import com.paypal.core.PayPalEnvironment;
 import com.paypal.core.PayPalHttpClient;
 import org.springframework.beans.factory.annotation.Value;

@@ -33,7 +33,8 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     @ToString.Exclude
     private List<Token> tokens;
-
+    private UUID confirmationToken;
+    private boolean confirmedByEmail = false;
     public User(UUID id) {
         this.id = id;
     }

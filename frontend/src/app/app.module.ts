@@ -27,6 +27,9 @@ import { InactivityService } from 'src/services/inactivity-service/inactivity.se
 import { TripListComponent } from './lists/trip-list/trip-list.component';
 import { TripDetailsComponent } from './trip-details/trip-details.component';
 import { PaypalCompleteComponent } from './paypal-complete/paypal-complete.component';
+import { EmailConfirmationComponent } from 'src/app/auth/email-confirmation/email-confirmation.component';
+import { PopupDialogComponent } from './popup-dialog/popup-dialog.component';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [
@@ -40,6 +43,8 @@ import { PaypalCompleteComponent } from './paypal-complete/paypal-complete.compo
     TripListComponent,
     TripDetailsComponent,
     PaypalCompleteComponent,
+    EmailConfirmationComponent,
+    PopupDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -59,6 +64,7 @@ import { PaypalCompleteComponent } from './paypal-complete/paypal-complete.compo
     HttpClientModule,
     MatTableModule,
     MatGridListModule,
+    MatDialogModule,
   ],
   providers: [InactivityService],
   bootstrap: [AppComponent]

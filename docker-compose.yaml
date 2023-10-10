@@ -1,0 +1,44 @@
+version: '3.1'
+services:
+  bus-management-tool:
+    image: your-spring-app-image:tag
+    environment:
+      - DATABASE_URL=jdbc:postgresql://database:5432/yourdb
+      - DATABASE_USERNAME=dbuser
+      - DATABASE_PASSWORD=dbpassword
+      - MONGO_HOST=mongodb
+      - MONGO_PORT=27017
+      - MONGO_DATABASE=yourmongodb
+      - MAIL-HOST=your-mail-host
+      - MAIL-PORT=your-mail-port
+      - MAIL-USERNAME=your-mail-username
+      - MAIL-PASSWORD=your-mail-password
+      - AWS_ACCESS_KEY=your-aws-access-key
+      - AWS_SECRET_KEY=your-aws-secret-key
+      - AWS_REGION=your-aws-region
+      - PAYPAL_MODE=your-paypal-mode
+      - PAYPAL_CLIENT_ID=your-paypal-client-id
+      - PAYPAL_SECRET=your-paypal-secret
+    ports:
+      - "8080:8080"  # Map the container port to the host
+    networks:
+      - mynetwork
+  db:
+    image: postgres
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_DB=yourdb
+      - POSTGRES_USER=dbuser
+      - POSTGRES_PASSWORD=dbpassword
+    networks:
+      - mynetwork
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb
+    environment:
+      - MONGO_INITDB_DATABASE=yourmongodb
+    networks:
+      - mynetwork
+      

@@ -6,6 +6,7 @@ import { AuthenticationComponent } from './auth/authentication/authentication.co
 import { TripListComponent } from './lists/trip-list/trip-list.component';
 import { TripDetailsComponent } from './trip-details/trip-details.component';
 import { PaypalCompleteComponent } from './paypal-complete/paypal-complete.component';
+import { EmailConfirmationComponent } from './auth/email-confirmation/email-confirmation.component';
 
 
 const routes: Routes = [
@@ -16,6 +17,8 @@ const routes: Routes = [
   { path: 'trips', component: TripListComponent},
   { path: 'trip/:id', component: TripDetailsComponent },
   { path: 'complete-payment', component: PaypalCompleteComponent },
+  { path: 'confirm', component: EmailConfirmationComponent },
+
 ];
 
 @NgModule({
