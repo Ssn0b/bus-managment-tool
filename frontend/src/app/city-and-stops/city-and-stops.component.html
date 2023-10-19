@@ -1,0 +1,34 @@
+<app-header></app-header>
+<body>
+    
+    <div id="map" style="height: 658px;"></div>
+    <div id="button-container">
+        <button id="addCityButton" [matMenuTriggerFor]="menu" class="leaflet-control leaflet-bar add-city-button" >Add City</button>
+        <button id="deleteCityButton" class="leaflet-control leaflet-bar delete-city-button" (click)="deleteCity()">Delete City</button>
+    </div>
+    <mat-menu #menu="matMenu" color="primary" >
+        <form (submit)="addCity()">
+            <div (click)="$event.stopPropagation();">
+                <mat-label>Name</mat-label>
+          <mat-form-field>
+            <input matInput type="text" name="cityName" placeholder="" [(ngModel)]="newCity.name">
+          </mat-form-field>
+          </div>
+          <div (click)="$event.stopPropagation();">
+            <mat-label>Latitude</mat-label>
+          <mat-form-field>
+            <input matInput type="number" placeholder="Latitude" name="latitude" [(ngModel)]="newCity.latitude">
+          </mat-form-field>
+        </div>
+        <div (click)="$event.stopPropagation();">
+            <mat-label>Longitude</mat-label>
+          <mat-form-field>
+            <input matInput type="number" width="10px" placeholder="longitude" name = "longitude" placeholder="Longitude" [(ngModel)]="newCity.longitude">
+          </mat-form-field>
+        </div>
+        <div (click)="$event.stopPropagation();">
+          <button mat-raised-button type="submit">Submit</button>
+          </div>
+        </form>
+      </mat-menu>
+</body>

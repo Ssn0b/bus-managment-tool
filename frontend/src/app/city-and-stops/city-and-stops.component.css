@@ -1,0 +1,33 @@
+/* Style for the buttons */
+.add-city-button, .delete-city-button {
+    background-color: white;
+    border: 2px solid #777;
+    color: #333;
+    padding: 5px 10px;
+    cursor: pointer;
+  }
+  
+  /* Position the buttons in the bottom left corner of the Leaflet map */
+  #button-container {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    z-index: 1000; /* Ensure they're above the map controls */
+  }
+  
+  /* Adjust the spacing between the buttons */
+  .delete-city-button {
+    margin-left: 10px;
+  }
+  .mat-menu-content {
+    background-color: 'red' !important;
+}
+  .mat-menu-panel.ng-trigger {
+    background: transparent;
+    min-width: 1%;
+    min-height: 1%;
+  }
+  
+  ::ng-deep .customize {
+    background: red;
+  }

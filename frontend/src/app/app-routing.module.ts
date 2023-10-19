@@ -7,6 +7,7 @@ import { TripListComponent } from './lists/trip-list/trip-list.component';
 import { TripDetailsComponent } from './trip-details/trip-details.component';
 import { PaypalCompleteComponent } from './paypal-complete/paypal-complete.component';
 import { EmailConfirmationComponent } from './auth/email-confirmation/email-confirmation.component';
+import { CityAndStopsComponent } from './city-and-stops/city-and-stops.component';
 
 
 const routes: Routes = [
@@ -14,8 +15,10 @@ const routes: Routes = [
   { path: 'home', component: HomeComponent },         
   { path: 'register', component: RegistrationComponent},
   { path: 'authenticate', component: AuthenticationComponent},
+  { path: 'city-and-stops', component: CityAndStopsComponent},
   { path: 'trips', component: TripListComponent},
   { path: 'trip/:id', component: TripDetailsComponent },
+  // { path: 'city/:id', component: CityDetailsComponent },
   { path: 'complete-payment', component: PaypalCompleteComponent },
   { path: 'confirm', component: EmailConfirmationComponent },
 

@@ -55,12 +55,17 @@ public class AdminController {
         return ResponseEntity.ok("Bus deleted successfully.");
     }
 
-    @PostMapping("/city")
+    @PostMapping("/cities")
     @PreAuthorize("hasAuthority('admin:create')")
     public ResponseEntity<String> addCity(@RequestBody CityDTO cityDTO) {
         cityService.saveCity(cityDTO);
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body("City added");
+    }
+    @GetMapping("/cities")
+    @PreAuthorize("hasAuthority('admin:read')")
+    public List<CityDTO> getCities() {
+        return cityService.getAllCities();
     }
     @DeleteMapping("/driver/{id}")
     @PreAuthorize("hasAuthority('admin:delete')")

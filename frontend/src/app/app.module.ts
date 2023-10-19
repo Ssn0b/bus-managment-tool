@@ -30,6 +30,8 @@ import { PaypalCompleteComponent } from './paypal-complete/paypal-complete.compo
 import { EmailConfirmationComponent } from 'src/app/auth/email-confirmation/email-confirmation.component';
 import { PopupDialogComponent } from './popup-dialog/popup-dialog.component';
 import { MatDialogModule } from '@angular/material/dialog';
+import { CityAndStopsComponent } from './city-and-stops/city-and-stops.component';
+import { MatInputModule } from '@angular/material/input';
 
 @NgModule({
   declarations: [
@@ -45,6 +47,7 @@ import { MatDialogModule } from '@angular/material/dialog';
     PaypalCompleteComponent,
     EmailConfirmationComponent,
     PopupDialogComponent,
+    CityAndStopsComponent,
   ],
   imports: [
     BrowserModule,
@@ -65,6 +68,7 @@ import { MatDialogModule } from '@angular/material/dialog';
     MatTableModule,
     MatGridListModule,
     MatDialogModule,
+    MatInputModule ,
   ],
   providers: [InactivityService],
   bootstrap: [AppComponent]
